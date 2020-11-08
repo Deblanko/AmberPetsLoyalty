@@ -8,6 +8,10 @@
 
 import XCTest
 
+
+
+//@testable import AmberPetsLoyalty
+
 class AmberPetsLoyaltyTests: XCTestCase {
 
     override func setUpWithError() throws {
@@ -30,4 +34,8 @@ class AmberPetsLoyaltyTests: XCTestCase {
         }
     }
 
+    func testRedeemTable() throws {
+        
+        //DataModel.sharedInstance.redeemed
+    }
 }

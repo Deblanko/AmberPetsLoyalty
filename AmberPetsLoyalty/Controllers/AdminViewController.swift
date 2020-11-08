@@ -20,12 +20,17 @@ class AdminViewController: UIViewController,AVCaptureMetadataOutputObjectsDelega
     @IBOutlet weak var newUserButton: UIButton!
     @IBOutlet weak var redeemButton: UIButton!
     @IBOutlet weak var addPointsButton: UIButton!
+    @IBOutlet weak var minusPointsButton: UIButton!
     @IBOutlet weak var rescanButton: UIButton!
+
     
     var captureSession: AVCaptureSession!
     var previewLayer: AVCaptureVideoPreviewLayer!
     
     var customerId : String?
+    
+    let dataModel = DataModel.sharedInstance
+    var dataObserver : NSKeyValueObservation?
 
     lazy var captureSessionQueue: OperationQueue = {
       var queue = OperationQueue()
@@ -79,7 +84,9 @@ class AdminViewController: UIViewController,AVCaptureMetadataOutputObjectsDelega
         }
 
         previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        previewLayer.frame = theView.layer.bounds
+        var rect = theView.layer.bounds
+        rect.size.width -= 40
+        previewLayer.frame = rect
         previewLayer.videoGravity = .resizeAspectFill
         theView.layer.addSublayer(previewLayer)
 
@@ -87,9 +94,9 @@ class AdminViewController: UIViewController,AVCaptureMetadataOutputObjectsDelega
             self.captureSession.startRunning()
         }
         
-        let theSize = (3 * previewLayer.frame.width) / 5
-        let theX = (previewLayer.frame.width - theSize) / 2
-        let theY = (previewLayer.frame.height / 2) - (theSize / 2)
+        let theSize = (3 * previewLayer.bounds.width) / 5
+        let theX = (previewLayer.bounds.width - theSize) / 2
+        let theY = (previewLayer.bounds.height / 2) - (theSize / 2)
         let scanRect = CGRect(x: theX, y: theY, width: theSize, height: theSize)
         let rectOfInterest = previewLayer.metadataOutputRectConverted(fromLayerRect: scanRect)
         metadataOutput.rectOfInterest = rectOfInterest
@@ -121,6 +128,11 @@ class AdminViewController: UIViewController,AVCaptureMetadataOutputObjectsDelega
                 self.captureSession.startRunning()
             }
         }
+        
+        dataObserver = dataModel.observe(\.lastRefresh, changeHandler: { (theModel, change) in
+            self.updateButtonsState()           // update buttons
+            self.foundUserTable.reloadData()    // update table
+        })
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -153,15 +165,15 @@ class AdminViewController: UIViewController,AVCaptureMetadataOutputObjectsDelega
     }
 
     func found(code: String) {
-        print(code)
         var title = "N/A"
         if let customerData = DataModel.sharedInstance.customerDataFromBase64String(code) {
             title = "\(customerData.type) : \(customerData.userId)"
             self.customerId = customerData.userId
-            self.updateButtonsState()
         }
         qrLabel.text = title
-        
+        self.updateButtonsState()
+        self.foundUserTable.reloadData()
+
     }
 
     override var prefersStatusBarHidden: Bool {
@@ -177,11 +189,17 @@ class AdminViewController: UIViewController,AVCaptureMetadataOutputObjectsDelega
         self.newUserButton.isEnabled = false
         self.redeemButton.isEnabled = false
         self.addPointsButton.isEnabled = false
+        self.minusPointsButton.isEnabled = false
         if let userId = self.customerId {
-            self.addPointsButton.isEnabled = true
             if let customer = DataModel.sharedInstance.customers[userId] {
-                if let totalPoints = customer.getPoints(userId: userId), totalPoints >= 10 {
-                    self.redeemButton.isEnabled = true
+                self.addPointsButton.isEnabled = true
+                if let totalPoints = customer.getPoints(userId: userId) {
+                    if totalPoints > 0 {
+                        self.minusPointsButton.isEnabled = true
+                        if totalPoints >= 10 {
+                            self.redeemButton.isEnabled = true
+                        }
+                    }
                 }
             }
             else {
@@ -190,22 +208,30 @@ class AdminViewController: UIViewController,AVCaptureMetadataOutputObjectsDelega
         }
         self.rescanButton.isEnabled = !(self.captureSession?.isRunning ?? true)
     }
-
     
-    @IBAction func newUserButtonClick(_ sender: UIButton) {
-        // show dialog
+    func addNewUserDialog(message:String = "", name:String? = nil, email:String? = nil) {
         if let userId = self.customerId {
-            let alertController = UIAlertController(title: "Add New User", message: "", preferredStyle: .actionSheet)
+            let alertController = UIAlertController(title: "Add New User", message: message, preferredStyle: .alert)
             alertController.addTextField { (textField) in
                 textField.placeholder = "Display Name"
+                textField.text = name
             }
             alertController.addTextField { (textField) in
                 textField.placeholder = "Email"
+                textField.text = email
             }
             alertController.addAction(UIAlertAction(title: "Save", style: .default, handler: { (action) in
                 if let name = alertController.textFields?[0].text,
                     let email = alertController.textFields?[1].text {
-                    DataModel.sharedInstance.addUser(userId: userId, displayName: name, email: email)
+                    
+                    if self.dataModel.emailExists(email) {
+                        // warn user
+                        self.addNewUserDialog(message: "Email already in use!\nUse a different one.", name: name, email: email)
+                    }
+                    else {
+                        DataModel.sharedInstance.addUser(userId: userId, displayName: name, email: email)
+                        self.newUserButton.isEnabled = false
+                    }
                 }
             }))
             alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
@@ -213,8 +239,25 @@ class AdminViewController: UIViewController,AVCaptureMetadataOutputObjectsDelega
             }))
             self.present(alertController, animated: true) {
                 //
+                
             }
         }
+    }
+    
+    func confirmRedeem(userId:String) {
+        let alert = UIAlertController(title: "Redeem", message: "Are you sure?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "NO", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "YES", style: .default, handler: { (action) in
+            DataModel.sharedInstance.addPointsForUserId(userId, points: -10)
+        }))
+        self.present(alert, animated: true) {
+            
+        }
+    }
+    
+    @IBAction func newUserButtonClick(_ sender: UIButton) {
+        // show dialog
+        self.addNewUserDialog()
     }
     
     @IBAction func redeemButtonClick(_ sender: UIButton) {
@@ -223,7 +266,7 @@ class AdminViewController: UIViewController,AVCaptureMetadataOutputObjectsDelega
             if let customer = DataModel.sharedInstance.customers[userId] {
                 if let totalPoints = customer.getPoints(userId: userId) {
                     if totalPoints >= 10 {
-                        DataModel.sharedInstance.addPointsForUserId(userId, points: -10)
+                        confirmRedeem(userId: userId)
                     }
                     else {
                         // how did we get here?
@@ -240,9 +283,17 @@ class AdminViewController: UIViewController,AVCaptureMetadataOutputObjectsDelega
         }
     }
     
+    @IBAction func minusPointsButtonClick(_ sender: UIButton) {
+        if let userId = self.customerId {
+            DataModel.sharedInstance.addPointsForUserId(userId, points: -1)
+        }
+    }
+    
+    
     @IBAction func rescanButtonClick(_ sender: UIButton) {
         if (captureSession?.isRunning == false) {
             captureSession.startRunning()
+            self.updateButtonsState()
         }
     }
     

@@ -18,6 +18,7 @@ class CustomerViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     let dataModel = DataModel.sharedInstance
     var dataObserver : NSKeyValueObservation?
+    var loginObserver : NSKeyValueObservation?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,39 +29,42 @@ class CustomerViewController: UIViewController {
         
         self.view.roundButtons()
         
-//        self.dataObserver = dataModel.observe(\.customerTableData, changeHandler: { (theModel, chnage) in
-//            self.tableView.reloadData()
-//        })
+        self.customerQRCodeImageView.layer.magnificationFilter = .nearest
+        
   
     }
-    
-    
-    
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.dataObserver = dataModel.observe(\.lastRefresh, changeHandler: { (theModel, change) in
             os_log("Customer View, updating", log: OSLog.customerView, type: .info)
             self.tableView.reloadData()
         })
-
-        if let user = Auth.auth().currentUser {
-            //os_log("User uid-> %@", log: OSLog.initialView, type: .info, String(describing:user.uid))
-            dataModel.customerQRData = CustomerQRData(type: user.providerID, userId: user.uid)
-            if let theCode = dataModel.base64StringFromCustomerData() {
-                if let qrImage = UIImage.generateQrCode(theCode) {
-                    self.customerQRCodeImageView.image = qrImage
-                    let smallLogo = UIImage(named: "SmallLogo")
-                    smallLogo?.addToCenter(of: self.customerQRCodeImageView, width: 60, height: 60)
-                }
-            }
-            
-        }
+        self.loginObserver = dataModel.observe(\.loggedIn, changeHandler: { (theModel, chnage) in
+            self.loginUpdated()
+        })
+        loginUpdated()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.dataObserver?.invalidate()
+        self.loginObserver?.invalidate()
+    }
+    
+    func loginUpdated() {
+        if let theCode = dataModel.base64StringFromCustomerData() {
+            if let qrImage = UIImage.generateQrCode(theCode) {
+                self.customerQRCodeImageView.image = qrImage
+                let smallLogo = UIImage(named: "SmallLogo")
+                smallLogo?.addToCenter(of: self.customerQRCodeImageView, width: 60, height: 60)
+            }
+        }
+        else {
+            self.customerQRCodeImageView.image = nil
+        }
+        
+//        self.tableView.reloadData()
     }
 
     /*
@@ -74,14 +78,28 @@ class CustomerViewController: UIViewController {
     */
     
     @IBAction func logoutButtonClick(_ sender: UIButton) {
-        try? Auth.auth().signOut()
-        if let vc = self.tabBarController as? InitialViewController {
-            vc.showLogin()
-        }
-        
+        dataModel.logout()        
     }
     
-
+    @IBAction func renameButtonClick(_ sender: UIButton) {
+        if let loggedInUser = dataModel.loggedInUserId {
+            let oldName = dataModel.userTable().first?.details ?? "N/A"
+            let alert = UIAlertController(title: "Rename", message: "Old Name:\(oldName)", preferredStyle: .alert)
+            alert.addTextField { (textField) in
+                textField.placeholder = "New Name"
+            }
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                if let name = alert.textFields?.first?.text {
+                    self.dataModel.updateUser(userId: loggedInUser, displayName: name)
+                }
+            }))
+            self.present(alert, animated: true) {
+                //
+            }
+        }
+    }
+    
 }
 
 extension CustomerViewController : UITableViewDataSource, UITableViewDelegate {

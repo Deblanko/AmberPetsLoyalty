@@ -7,46 +7,59 @@
 //
 
 import UIKit
+import os.log
 
 class RedeemedTableViewController: UITableViewController {
+    
+    let dataModel = DataModel.sharedInstance
+    var dataObserver : NSKeyValueObservation?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
-        // TEST
-        let user1 = "EXBFhJiJoAZ8JfY0OmuCOZ3XrHy1"
-        let x1 = Redeemed(userId: user1, date: "2020-10-01T14:33:14.550Z")
-        let x2 = Redeemed(userId: user1, date: "2020-09-30T14:33:14.550Z")
-        let x3 = Redeemed(userId: user1, date: "2020-08-23T14:33:14.550Z")
-        let x4 = Redeemed(userId: user1, date: "2020-07-12T14:33:14.550Z")
-        let x5 = Redeemed(userId: user1, date: "2020-06-11T14:33:14.550Z")
-        let x6 = Redeemed(userId: user1, date: "2020-05-05T14:33:14.550Z")
-        let x7 = Redeemed(userId: user1, date: "2020-04-23T14:33:14.550Z")
-        let x8 = Redeemed(userId: user1, date: "2020-03-28T14:33:14.550Z")
-        let x9 = Redeemed(userId: user1, date: "2020-02-29T14:33:14.550Z")
-        DataModel.sharedInstance.redeemed.append(x1)
-        DataModel.sharedInstance.redeemed.append(x2)
-        DataModel.sharedInstance.redeemed.append(x3)
-        DataModel.sharedInstance.redeemed.append(x4)
-        DataModel.sharedInstance.redeemed.append(x5)
-        DataModel.sharedInstance.redeemed.append(x6)
-        DataModel.sharedInstance.redeemed.append(x7)
-        DataModel.sharedInstance.redeemed.append(x8)
-        DataModel.sharedInstance.redeemed.append(x9)
+//        // TEST
+//        let user1 = "EXBFhJiJoAZ8JfY0OmuCOZ3XrHy1"
+//        let x1 = Redeemed(userId: user1, date: "2020-10-01T14:33:14.550Z")
+//        let x2 = Redeemed(userId: user1, date: "2020-09-30T14:33:14.550Z")
+//        let x3 = Redeemed(userId: user1, date: "2020-08-23T14:33:14.550Z")
+//        let x4 = Redeemed(userId: user1, date: "2020-07-12T14:33:14.550Z")
+//        let x5 = Redeemed(userId: user1, date: "2020-06-11T14:33:14.550Z")
+//        let x6 = Redeemed(userId: user1, date: "2020-05-05T14:33:14.550Z")
+//        let x7 = Redeemed(userId: user1, date: "2020-04-23T14:33:14.550Z")
+//        let x8 = Redeemed(userId: user1, date: "2020-03-28T14:33:14.550Z")
+//        let x9 = Redeemed(userId: user1, date: "2020-02-29T14:33:14.550Z")
+//        DataModel.sharedInstance.redeemed.append(x1)
+//        DataModel.sharedInstance.redeemed.append(x2)
+//        DataModel.sharedInstance.redeemed.append(x3)
+//        DataModel.sharedInstance.redeemed.append(x4)
+//        DataModel.sharedInstance.redeemed.append(x5)
+//        DataModel.sharedInstance.redeemed.append(x6)
+//        DataModel.sharedInstance.redeemed.append(x7)
+//        DataModel.sharedInstance.redeemed.append(x8)
+//        DataModel.sharedInstance.redeemed.append(x9)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.dataObserver = dataModel.observe(\.lastRefresh, changeHandler: { (theModel, change) in
+            os_log("Vouchers (Redeemed) View, updating", log: OSLog.vouchersView, type: .info)
+            DataModel.sharedInstance.buildRedeemedTable()
+            self.tableView.reloadData()
+        })
         DataModel.sharedInstance.buildRedeemedTable()
         self.tableView.reloadData()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.dataObserver?.invalidate()
+        self.dataObserver = nil
     }
 
     // MARK: - Table view data source

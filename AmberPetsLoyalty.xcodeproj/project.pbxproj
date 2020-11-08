@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		30324E08560E3E40AE5D8F8C /* Pods_AmberPetsLoyalty.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC78C4C3B08982C343B8D886 /* Pods_AmberPetsLoyalty.framework */; };
+		843D75492529FAFB00941E7A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843D75482529FAFB00941E7A /* main.swift */; };
+		843D7551252A3A8500941E7A /* PDFTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843D7550252A3A8500941E7A /* PDFTools.swift */; };
 		84452159250FA99000586136 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84452158250FA99000586136 /* AppDelegate.swift */; };
 		8445215B250FA99000586136 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8445215A250FA99000586136 /* SceneDelegate.swift */; };
 		8445215D250FA99000586136 /* AdminViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8445215C250FA99000586136 /* AdminViewController.swift */; };
@@ -15,6 +17,7 @@
 		84452162250FA99700586136 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84452161250FA99700586136 /* Assets.xcassets */; };
 		84452165250FA99700586136 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84452163250FA99700586136 /* LaunchScreen.storyboard */; };
 		8464D6F125267C1800BE8288 /* AmberPetsLoyaltyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8464D6F025267C1800BE8288 /* AmberPetsLoyaltyTests.swift */; };
+		84AC48842528968A00E5B8BD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84AC48832528968A00E5B8BD /* GoogleService-Info.plist */; };
 		84BD4BC025141298003CFF1D /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BD4BBF25141298003CFF1D /* DataModel.swift */; };
 		84BD4BC425149456003CFF1D /* CustomerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BD4BC325149456003CFF1D /* CustomerViewController.swift */; };
 		84BD4BEA251652CE003CFF1D /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BD4BE9251652CE003CFF1D /* UIImage+Extension.swift */; };
@@ -23,7 +26,6 @@
 		84BD4BF1251E88E2003CFF1D /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BD4BF0251E88E2003CFF1D /* UIView+Extension.swift */; };
 		84D0340E2513CB5500B5AA6E /* osLog+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D0340D2513CB5500B5AA6E /* osLog+Extension.swift */; };
 		84D06ACB2511276300F27A89 /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D06ACA2511276300F27A89 /* InitialViewController.swift */; };
-		84D06ACD25129B3900F27A89 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84D06ACC25129B3800F27A89 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,8 +38,23 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		843D75442529FAFB00941E7A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		6B98E014810DB1B47F6BACC7 /* Pods-AmberPetsLoyalty.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmberPetsLoyalty.debug.xcconfig"; path = "Target Support Files/Pods-AmberPetsLoyalty/Pods-AmberPetsLoyalty.debug.xcconfig"; sourceTree = "<group>"; };
+		843D75462529FAFB00941E7A /* MakeQRCodes */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MakeQRCodes; sourceTree = BUILT_PRODUCTS_DIR; };
+		843D75482529FAFB00941E7A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		843D7550252A3A8500941E7A /* PDFTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFTools.swift; sourceTree = "<group>"; };
 		84452155250FA99000586136 /* AmberPetsLoyalty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AmberPetsLoyalty.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84452158250FA99000586136 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8445215A250FA99000586136 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -49,6 +66,7 @@
 		8464D6EE25267C1800BE8288 /* AmberPetsLoyaltyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AmberPetsLoyaltyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8464D6F025267C1800BE8288 /* AmberPetsLoyaltyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmberPetsLoyaltyTests.swift; sourceTree = "<group>"; };
 		8464D6F225267C1800BE8288 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84AC48832528968A00E5B8BD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		84BD4BBF25141298003CFF1D /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		84BD4BC325149456003CFF1D /* CustomerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerViewController.swift; sourceTree = "<group>"; };
 		84BD4BE9251652CE003CFF1D /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
@@ -58,12 +76,18 @@
 		84BD4BF0251E88E2003CFF1D /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		84D0340D2513CB5500B5AA6E /* osLog+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "osLog+Extension.swift"; sourceTree = "<group>"; };
 		84D06ACA2511276300F27A89 /* InitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
-		84D06ACC25129B3800F27A89 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B2A735E95C0A6EEA012F94B3 /* Pods-AmberPetsLoyalty.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmberPetsLoyalty.release.xcconfig"; path = "Target Support Files/Pods-AmberPetsLoyalty/Pods-AmberPetsLoyalty.release.xcconfig"; sourceTree = "<group>"; };
 		CC78C4C3B08982C343B8D886 /* Pods_AmberPetsLoyalty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AmberPetsLoyalty.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		843D75432529FAFB00941E7A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		84452152250FA99000586136 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -99,11 +123,21 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		843D75472529FAFB00941E7A /* MakeQRCodes */ = {
+			isa = PBXGroup;
+			children = (
+				843D75482529FAFB00941E7A /* main.swift */,
+				843D7550252A3A8500941E7A /* PDFTools.swift */,
+			);
+			path = MakeQRCodes;
+			sourceTree = "<group>";
+		};
 		8445214C250FA99000586136 = {
 			isa = PBXGroup;
 			children = (
 				84452157250FA99000586136 /* AmberPetsLoyalty */,
 				8464D6EF25267C1800BE8288 /* AmberPetsLoyaltyTests */,
+				843D75472529FAFB00941E7A /* MakeQRCodes */,
 				84452156250FA99000586136 /* Products */,
 				4188F830D434444B81B9D39B /* Pods */,
 				13C65A2A5F2493259385E923 /* Frameworks */,
@@ -115,6 +149,7 @@
 			children = (
 				84452155250FA99000586136 /* AmberPetsLoyalty.app */,
 				8464D6EE25267C1800BE8288 /* AmberPetsLoyaltyTests.xctest */,
+				843D75462529FAFB00941E7A /* MakeQRCodes */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -123,7 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				84BD4BEF251E840A003CFF1D /* AmberPetsLoyalty.entitlements */,
-				84D06ACC25129B3800F27A89 /* GoogleService-Info.plist */,
+				84AC48832528968A00E5B8BD /* GoogleService-Info.plist */,
 				84452158250FA99000586136 /* AppDelegate.swift */,
 				8445215A250FA99000586136 /* SceneDelegate.swift */,
 				84BD4BF4251F2DD2003CFF1D /* Controllers */,
@@ -179,6 +214,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		843D75452529FAFB00941E7A /* MakeQRCodes */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 843D754A2529FAFB00941E7A /* Build configuration list for PBXNativeTarget "MakeQRCodes" */;
+			buildPhases = (
+				843D75422529FAFB00941E7A /* Sources */,
+				843D75432529FAFB00941E7A /* Frameworks */,
+				843D75442529FAFB00941E7A /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MakeQRCodes;
+			productName = MakeQRCodes;
+			productReference = 843D75462529FAFB00941E7A /* MakeQRCodes */;
+			productType = "com.apple.product-type.tool";
+		};
 		84452154250FA99000586136 /* AmberPetsLoyalty */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 84452169250FA99700586136 /* Build configuration list for PBXNativeTarget "AmberPetsLoyalty" */;
@@ -225,10 +277,13 @@
 		8445214D250FA99000586136 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1170;
-				LastUpgradeCheck = 1170;
+				LastSwiftUpdateCheck = 1200;
+				LastUpgradeCheck = 1210;
 				ORGANIZATIONNAME = Deblanko;
 				TargetAttributes = {
+					843D75452529FAFB00941E7A = {
+						CreatedOnToolsVersion = 12.0.1;
+					};
 					84452154250FA99000586136 = {
 						CreatedOnToolsVersion = 11.7;
 					};
@@ -255,6 +310,7 @@
 			targets = (
 				84452154250FA99000586136 /* AmberPetsLoyalty */,
 				8464D6ED25267C1800BE8288 /* AmberPetsLoyaltyTests */,
+				843D75452529FAFB00941E7A /* MakeQRCodes */,
 			);
 		};
 /* End PBXProject section */
@@ -265,7 +321,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84452165250FA99700586136 /* LaunchScreen.storyboard in Resources */,
-				84D06ACD25129B3900F27A89 /* GoogleService-Info.plist in Resources */,
+				84AC48842528968A00E5B8BD /* GoogleService-Info.plist in Resources */,
 				84452162250FA99700586136 /* Assets.xcassets in Resources */,
 				84452160250FA99000586136 /* Main.storyboard in Resources */,
 			);
@@ -340,6 +396,15 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		843D75422529FAFB00941E7A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				843D7551252A3A8500941E7A /* PDFTools.swift in Sources */,
+				843D75492529FAFB00941E7A /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		84452151250FA99000586136 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -396,6 +461,34 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		843D754B2529FAFB00941E7A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = BWBW33N9W7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		843D754C2529FAFB00941E7A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = BWBW33N9W7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		84452167250FA99700586136 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -422,6 +515,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -482,6 +576,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -524,6 +619,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.deblanko.amberpetsloyalty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -545,6 +641,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.deblanko.amberpetsloyalty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -597,6 +694,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		843D754A2529FAFB00941E7A /* Build configuration list for PBXNativeTarget "MakeQRCodes" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				843D754B2529FAFB00941E7A /* Debug */,
+				843D754C2529FAFB00941E7A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		84452150250FA99000586136 /* Build configuration list for PBXProject "AmberPetsLoyalty" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

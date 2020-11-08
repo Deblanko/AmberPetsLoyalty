@@ -12,7 +12,7 @@ import FirebaseFirestoreSwift
 import os.log
 
 struct CustomerQRData : Codable {
-    let store = "AmberPets"
+    var store = "AmberPets"
     let type:String
     let userId:String
 }
@@ -72,14 +72,18 @@ struct CustomerEntry : Codable {
 
 
 class DataModel: NSObject {
+    
+    let xxx = FirebaseApp.configure()
 
     static let sharedInstance = DataModel()
     
+    // access to database funcs
     let db = Firestore.firestore()
-    
+    // observers
     var handle: AuthStateDidChangeListenerHandle?
     var isAdminObserver : NSKeyValueObservation?
     
+    // KVOs
     @objc dynamic private var _isAdmin = false
     
     @objc dynamic public var isAdmin:Bool {
@@ -99,10 +103,12 @@ class DataModel: NSObject {
     }
     
     @objc dynamic public var loggedIn = false
+    @objc dynamic public var lastRefresh = Date()
     
+    // current QR data
     var customerQRData : CustomerQRData?
-//    @objc dynamic var customerTableData:[TableInfo]
     
+    // Cached data, updated by DB listeners
     // customer and users view
     var customers = [String : CustomerEntry]()
     // used by customer and users views
@@ -120,11 +126,12 @@ class DataModel: NSObject {
     var usersListener : ListenerRegistration?
     var pointsListener : ListenerRegistration?
     var redeemListener : ListenerRegistration?
+    
 
+
+    // data tables
     
-    @objc dynamic public var lastRefresh = Date()
-    
-    
+    // info for customer details
     public func userTable(userId:String? = nil) -> [TableInfo] {
         var userTable = [TableInfo]()
         if let userId = userId ?? self.loggedInUserId {
@@ -191,7 +198,6 @@ class DataModel: NSObject {
         let ordFormatter = NumberFormatter()
         ordFormatter.numberStyle = .ordinal
 
-
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone.current
         dateFormatter.locale = Locale.current
@@ -225,38 +231,51 @@ class DataModel: NSObject {
         }
     }
     
+    // init
+    
     override init() {
-        //
-//        self.customerTableData = [TableInfo]()
         super.init()
+        
+        
         // listener for logged in/out
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
             os_log("Auth -> %@", log: OSLog.dataModel, type: .info, String(describing:user?.uid))
             if let user = user {
-                self.loggedIn = true
                 self.loggedInUserId = user.uid
                 self.updateAdminFlag(email: user.email)
                 self.addUser(userId: user.uid, displayName: user.displayName, email: user.email)
+                self.customerQRData = CustomerQRData(type: user.providerID, userId: user.uid)
+                self.loggedIn = true    // do this last, it triggers a refresh
             }
             else {
                 // login
-                self.loggedIn = false
                 self.loggedInUserId = nil
                 self.isAdmin = false
                 self.updateAll()
+                self.customerQRData = nil
+                self.loggedIn = false   // do this last, it triggers a refresh
             }
         }
         
         isAdminObserver = self.observe(\.isAdmin, changeHandler: { (theModel, change) in
             if theModel.isAdmin {
+                self.pointsListener?.remove()   // remove any single user listeners
                 self.setupListeners()
+                
             }
             else {
                 self.removeListeners()
+                if let userId = self.loggedInUserId {
+                    self.fetchPointsForUserId(userId)
+                }
             }
         })
     }
     
+    public func emailExists(_ email:String) -> Bool {
+        let result = (self.customers.first{$0.value.email.compare(email, options: .caseInsensitive) == .orderedSame} != nil)
+        return result
+    }
 
     
     // helper functions
@@ -332,10 +351,10 @@ class DataModel: NSObject {
     public func fetchPointsForUserId(_ userId:String) {
         
         let ref = self.db.collection("points").document(userId)
-        ref.addSnapshotListener { (snapshot, error) in
+        self.pointsListener = ref.addSnapshotListener { (snapshot, error) in
             if let error = error {
-                 os_log("Fetch points for uid %@, Error %{public}@", userId, error as CVarArg)
-             } else {
+                os_log("Fetch points for uid %@, Error %{public}@", userId, error as CVarArg)
+            } else {
                 if let data = snapshot?.data() {
                     if let total = data["total"] as? Int {
                         let lastUpdate = data["lastUpdate"] as? String ?? "N/A"
@@ -343,37 +362,25 @@ class DataModel: NSObject {
                         self.updateAll()
                     }
                 }
-        }
-//        ref.getDocument { (snapshot, error) in
-//
-//            var value = "N/A"
-//            if let error = error {
-//                 os_log("Fetch points for uid %@, Error %{public}@", userId, error as CVarArg)
-//             } else {
-//                if let data = snapshot?.data() {
-//                    if let points = data["total"] as? Int {
-//                        value = "\(points)"
-//                    }
-//                }
-//                else {
-//                    let lastCheckin = self.getISO8601Date()
-//                    ref.updateData(["total": 0, "lastUpdate": lastCheckin]) { (error) in
-//                        if let error = error {
-//                            os_log("Failed update for uid %@, Error %{public}@", userId, error as CVarArg)
-//                        }
-//                    }
-//
-//                }
-//                var updateTableData = self.customerTableData
-//                // points is last entry in table
-//                updateTableData.removeLast()
-//                updateTableData.append(TableInfo(title: "Points", details: value))
-//                self.customerTableData = updateTableData
-//            }
+            }
         }
     }
     
-    
+    public func updateUser(userId:String, displayName:String) {
+        let ref = self.db.collection("users").document(userId)
+        let lastCheckin = self.getISO8601Date()
+        ref.updateData(["displayName" : displayName, "lastCheckin" : lastCheckin ]) { (error) in
+            if let error = error {
+                os_log("update user for uid %@, Error %{public}@", userId, error as CVarArg)
+            } else {
+                if let customerEntry = self.customers[userId] {
+                    let updatedCustomerEntry = CustomerEntry(displayName: displayName, email: customerEntry.email, lastCheckin: lastCheckin)
+                    self.customers[userId] = updatedCustomerEntry
+                    self.updateAll()
+                }
+            }
+        }
+    }
     
     public func addUser(userId:String, displayName:String?, email:String?) {
         os_log("Add User for uid %@", log:OSLog.dataModel, type:.info, userId)
@@ -390,8 +397,10 @@ class DataModel: NSObject {
                             os_log("Could not update lastCheckin for %{public}@, %{public}@", log: OSLog.dataModel, type: .error, userId, error as CVarArg)
                         }
                         else {
-                            self.customers[userId] = CustomerEntry( displayName: displayName ?? "N/A", email: email ?? "N/A", lastCheckin: lastCheckin)
+                            let theName = displayName ?? self.customers[userId]?.displayName ?? "N/A"
+                            self.customers[userId] = CustomerEntry( displayName: theName, email: email ?? "N/A", lastCheckin: lastCheckin)
                             self.updateAll()
+                            self.addPointsForUserId(userId, points: 0)  // 0 points for existing user
                         }
                     }
                 }
@@ -422,8 +431,10 @@ class DataModel: NSObject {
         }
     }
     
+
+    
     public func addPointsForUserId(_ userId:String, points:Int = 1) {
-        let ref = db.collection("points").document("userid")
+        let ref = db.collection("points").document(userId)
 
         self.db.runTransaction({ (transaction, errorPointer) -> Any? in
             let docSnapshot: DocumentSnapshot
@@ -443,13 +454,16 @@ class DataModel: NSObject {
             else {
                 transaction.setData(["total":0, "lastUpdate": lastCheckin], forDocument: ref)
             }
+    
             if counter + points < 0 {
                 let err = NSError(domain: "AppErrorDomain", code: -2, userInfo: [NSLocalizedDescriptionKey: "Not enough points to redeem"])
                 errorPointer?.pointee = err
                 return "Only have \(counter) points. Cannot redeem"
             }
-            // update counter value via transaction
-            transaction.updateData(["total": counter + points, "lastUpdate":lastCheckin], forDocument: ref)
+            if points != 0 {
+                // update counter value via transaction (don't do it for 0, that is just for the set above!)
+                transaction.updateData(["total": counter + points, "lastUpdate":lastCheckin], forDocument: ref)
+            }
             return nil
         }) { (object, err) in
             if let err = err {
@@ -460,6 +474,7 @@ class DataModel: NSObject {
 
                 if (points < 0) {
                     // redeem
+                    self.redeemPointsForUser(userId)
                 }
                 
             }
@@ -470,12 +485,12 @@ class DataModel: NSObject {
     func redeemPointsForUser(_ userId:String) {
         let redeemDate = self.getISO8601Date()
         let ref = self.db.collection("redeem").document()
-        ref.setData(["userId": userId, redeemDate: "redeemDate"]) { (error) in
+        ref.setData(["userId": userId, "date": redeemDate]) { (error) in
             if let error = error {
                 os_log("Redeem failed, reason: %{public}@", log: OSLog.dataModel, type: .error, error as CVarArg)
             }
             else {
-                
+                self.updateAll()
             }
         }
     }

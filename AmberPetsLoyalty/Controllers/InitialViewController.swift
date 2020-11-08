@@ -14,7 +14,7 @@ import FirebaseUI
 
 class InitialViewController: UITabBarController {
 
-    let db = Firestore.firestore()
+    //let db = Firestore.firestore()
     
     var isAdminObserver : NSKeyValueObservation?
     var loggedInObserver : NSKeyValueObservation?
@@ -46,6 +46,7 @@ class InitialViewController: UITabBarController {
         }
         return vcs
     }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
