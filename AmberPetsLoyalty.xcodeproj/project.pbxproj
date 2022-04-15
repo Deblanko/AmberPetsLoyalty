@@ -612,6 +612,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = AmberPetsLoyalty/AmberPetsLoyalty.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = BWBW33N9W7;
 				INFOPLIST_FILE = AmberPetsLoyalty/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -634,6 +635,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = AmberPetsLoyalty/AmberPetsLoyalty.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = BWBW33N9W7;
 				INFOPLIST_FILE = AmberPetsLoyalty/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;

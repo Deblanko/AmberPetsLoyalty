@@ -73,7 +73,7 @@ struct CustomerEntry : Codable {
 
 class DataModel: NSObject {
     
-    let xxx = FirebaseApp.configure()
+    let xxx: Void = FirebaseApp.configure()
 
     static let sharedInstance = DataModel()
     
