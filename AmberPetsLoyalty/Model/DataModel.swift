@@ -161,7 +161,7 @@ class DataModel: NSObject {
         
     }
     
-    public func buildRedeemedTable() {
+    public func buildRedeemedTable(selectedUserId : String? = nil) {
         let isoDateFormatter = ISO8601DateFormatter()
         isoDateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
         isoDateFormatter.formatOptions = [
@@ -209,6 +209,9 @@ class DataModel: NSObject {
         fullDateFormatter.dateFormat = "E 'Ord' MMM '@' HH:mm"
 
         for item in self.redeemed {
+            if let selectedUserId = selectedUserId, item.userId != selectedUserId {
+                continue    // do not process none user stuff
+            }
             if let displayName = self.customers[item.userId]?.displayName {
                 if let realDate = isoDateFormatter.date(from: item.date) {
                     let pastDate = calendar.dateComponents([.month,.year], from: realDate)

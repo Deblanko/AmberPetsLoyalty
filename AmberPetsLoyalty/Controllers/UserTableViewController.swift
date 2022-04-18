@@ -72,5 +72,15 @@ class UserTableViewController: UITableViewController {
         return cell
     }
     
-
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+        if let vc = segue.destination as? UserDetailsViewController, let selectedRow = tableView.indexPathForSelectedRow  {
+            let keys = Array(dataModel.customers.keys)
+            let userId = keys[selectedRow.row] as String
+            vc.selectedUserId = userId
+        }
+            
+        
+    }
 }

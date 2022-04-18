@@ -127,6 +127,7 @@ class InitialViewController: UITabBarController {
                 // Fallback on earlier versions
                 authUI.providers = [ FUIEmailAuth(), FUIFacebookAuth() ]
             }
+            authUI.shouldAutoUpgradeAnonymousUsers = true
             authUI.shouldHideCancelButton = true
             let authViewController = authUI.authViewController()
             present(authViewController, animated: true, completion: {})
