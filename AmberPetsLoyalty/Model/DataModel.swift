@@ -63,6 +63,20 @@ struct CustomerEntry : Codable {
         return result
     }
     
+    var prettyDate : String {
+        let isoFormatter = ISO8601DateFormatter()
+        if let date = isoFormatter.date(from:lastCheckin) {
+            let dateFormatter = DateFormatter()
+            // Set Date/Time Style
+            dateFormatter.dateStyle = .long
+            dateFormatter.timeStyle = .short
+            return dateFormatter.string(from: date)
+        }
+        else {
+            return lastCheckin
+        }
+    }
+    
     enum CodingKeys : String, CodingKey{
         case displayName
         case email
@@ -400,7 +414,7 @@ class DataModel: NSObject {
                             os_log("Could not update lastCheckin for %{public}@, %{public}@", log: OSLog.dataModel, type: .error, userId, error as CVarArg)
                         }
                         else {
-                            let theName = displayName ?? self.customers[userId]?.displayName ?? "N/A"
+                            let theName = self.customers[userId]?.displayName ?? displayName ?? "N/A"
                             self.customers[userId] = CustomerEntry( displayName: theName, email: email ?? "N/A", lastCheckin: lastCheckin)
                             self.updateAll()
                             self.addPointsForUserId(userId, points: 0)  // 0 points for existing user
@@ -475,7 +489,7 @@ class DataModel: NSObject {
                 os_log("Transaction succeeded", log: OSLog.dataModel, type: .info)
                 self.updateAll()
 
-                if (points < 0) {
+                if (points == -10) {
                     // redeem
                     self.redeemPointsForUser(userId)
                 }

@@ -75,12 +75,27 @@ class UserTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
-        if let vc = segue.destination as? UserDetailsViewController, let selectedRow = tableView.indexPathForSelectedRow  {
-            let keys = Array(dataModel.customers.keys)
-            let userId = keys[selectedRow.row] as String
-            vc.selectedUserId = userId
+        let keys = Array(dataModel.customers.keys)
+
+        if let cell = sender as? UITableViewCell {
+            let buttonPosition:CGPoint = cell.convert(CGPoint.zero, to: self.tableView)
+            if let indexPath = self.tableView.indexPathForRow(at: buttonPosition), let vc = segue.destination as? UserInfoViewController {
+                vc.userId = keys[indexPath.row] as String
+                return
+            }
         }
-            
         
+        guard let selectedRow = tableView.indexPathForSelectedRow else {
+            return
+        }
+        
+        let userId = keys[selectedRow.row] as String
+        if let vc = segue.destination as? UserDetailsViewController {
+             vc.selectedUserId = userId
+        }
     }
+    
+//    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+//
+//    }
 }

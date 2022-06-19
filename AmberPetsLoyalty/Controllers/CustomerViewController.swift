@@ -44,6 +44,7 @@ class CustomerViewController: UIViewController {
             self.loginUpdated()
         })
         loginUpdated()
+        tableView.reloadData()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -78,7 +79,17 @@ class CustomerViewController: UIViewController {
     */
     
     @IBAction func logoutButtonClick(_ sender: UIButton) {
-        dataModel.logout()        
+        if dataModel.loggedInUserId != nil {
+            let name = dataModel.userTable().first?.details ?? "N/A"
+            let alert = UIAlertController(title:  "Logout:\(name)", message:"Are you sure?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
+                self.dataModel.logout()
+            }))
+            self.present(alert, animated: true) {
+                //
+            }
+        }
     }
     
     @IBAction func renameButtonClick(_ sender: UIButton) {

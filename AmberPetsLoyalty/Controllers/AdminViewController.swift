@@ -148,7 +148,14 @@ class AdminViewController: UIViewController,AVCaptureMetadataOutputObjectsDelega
     }
 
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
-        captureSession.stopRunning()
+        captureSessionQueue.addOperation {
+            if (self.captureSession?.isRunning == true) {
+                self.captureSession.stopRunning()
+            }
+            DispatchQueue.main.async {
+                self.updateButtonsState()
+            }
+        }
 
         if let metadataObject = metadataObjects.first {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else {
