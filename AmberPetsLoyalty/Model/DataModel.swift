@@ -45,14 +45,17 @@ struct RedeemedTable {
 
 
 struct CustomerEntry : Codable {
-//    var userId : String = ""
-    let displayName : String
+    //    var userId : String = ""
+    let displayName : String?
     let email: String
     var lastCheckin: String
     
-    lazy var lastName : String = {
-        let personNameComponents = PersonNameComponentsFormatter().personNameComponents(from: self.displayName)
-        return personNameComponents?.familyName ?? self.displayName
+    lazy var lastName : String? = {
+        guard let name = self.displayName else {
+            return nil
+        }
+        let personNameComponents = PersonNameComponentsFormatter().personNameComponents(from: name)
+        return personNameComponents?.familyName ?? name
     }()
     
     func getPoints(userId:String) -> Int? {
@@ -88,7 +91,7 @@ struct CustomerEntry : Codable {
 class DataModel: NSObject {
     
     let xxx: Void = FirebaseApp.configure()
-
+    
     static let sharedInstance = DataModel()
     
     // access to database funcs
@@ -141,8 +144,8 @@ class DataModel: NSObject {
     var pointsListener : ListenerRegistration?
     var redeemListener : ListenerRegistration?
     
-
-
+    
+    
     // data tables
     
     // info for customer details
@@ -150,7 +153,7 @@ class DataModel: NSObject {
         var userTable = [TableInfo]()
         if let userId = userId ?? self.loggedInUserId {
             if let customer = self.customers[userId] {
-                userTable.append(TableInfo(title: "Name", details: customer.displayName))
+                userTable.append(TableInfo(title: "Name", details: customer.displayName ?? "N/A"))
                 userTable.append(TableInfo(title: "Email", details: customer.email))
                 var value = "N/A"
                 if let points = self.points[userId] {
@@ -183,7 +186,7 @@ class DataModel: NSObject {
             .withFullTime,
             .withDashSeparatorInDate,
             .withFractionalSeconds]
-
+        
         let calendar = Calendar.current
         
         let sectionFormatter = DateFormatter()
@@ -193,7 +196,7 @@ class DataModel: NSObject {
         // clean up old data (or initial data)
         self.redeemedTableSections.removeAll()
         self.redeemedTableData.removeAll()
-
+        
         var current = now
         for _ in 0...5 {
             // create a section title
@@ -211,17 +214,17 @@ class DataModel: NSObject {
         
         let ordFormatter = NumberFormatter()
         ordFormatter.numberStyle = .ordinal
-
+        
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone.current
         dateFormatter.locale = Locale.current
         dateFormatter.dateFormat = "E 'Ord' '@' HH:mm"
-
+        
         let fullDateFormatter = DateFormatter()
         fullDateFormatter.timeZone = TimeZone.current
         fullDateFormatter.locale = Locale.current
         fullDateFormatter.dateFormat = "E 'Ord' MMM '@' HH:mm"
-
+        
         for item in self.redeemed {
             if let selectedUserId = selectedUserId, item.userId != selectedUserId {
                 continue    // do not process none user stuff
@@ -231,7 +234,7 @@ class DataModel: NSObject {
                     let pastDate = calendar.dateComponents([.month,.year], from: realDate)
                     let nowDate = calendar.dateComponents([.month,.year], from: now)
                     var monthsDiff = calendar.dateComponents([.month], from: pastDate, to: nowDate).month ?? 6
-
+                    
                     if monthsDiff > 6 {
                         monthsDiff = 6
                     }
@@ -240,7 +243,7 @@ class DataModel: NSObject {
                     let day = calendar.component(.day, from: realDate)
                     let ordDay = ordFormatter.string(from: NSNumber(value: day)) ?? "\(day)"
                     dateString = dateString.replacingOccurrences(of: "Ord", with: ordDay)
-
+                    
                     let entry = RedeemedTable(displayName: displayName, date: dateString, userId: item.userId)
                     redeemedTableData[monthsDiff].append(entry)
                 }
@@ -293,7 +296,7 @@ class DataModel: NSObject {
         let result = (self.customers.first{$0.value.email.compare(email, options: .caseInsensitive) == .orderedSame} != nil)
         return result
     }
-
+    
     
     // helper functions
     func getJSONStringFromCustomerData() -> String? {
@@ -327,7 +330,7 @@ class DataModel: NSObject {
         }
         return result
     }
-
+    
     private func getISO8601Date(_ date:Date? = nil) -> String {
         let now = date ?? Date()
         let iso8601DateFormatter = ISO8601DateFormatter()
@@ -363,7 +366,7 @@ class DataModel: NSObject {
             self.isAdmin = false
         }
     }
-
+    
     // get for one (the current) user
     public func fetchPointsForUserId(_ userId:String) {
         
@@ -405,7 +408,7 @@ class DataModel: NSObject {
         ref.getDocument { (snapshot, error) in
             if let err = error {
                 os_log("Add User for uid %@, Error %{public}@", log:OSLog.dataModel, type:.error, userId, err as CVarArg)
-             } else {
+            } else {
                 let lastCheckin = self.getISO8601Date()
                 if snapshot?.exists ?? false {
                     snapshot?.reference.updateData(["lastCheckin":lastCheckin]) { (error) in
@@ -414,7 +417,7 @@ class DataModel: NSObject {
                             os_log("Could not update lastCheckin for %{public}@, %{public}@", log: OSLog.dataModel, type: .error, userId, error as CVarArg)
                         }
                         else {
-                            let theName = self.customers[userId]?.displayName ?? displayName ?? "N/A"
+                            let theName = self.customers[userId]?.displayName ?? displayName
                             self.customers[userId] = CustomerEntry( displayName: theName, email: email ?? "N/A", lastCheckin: lastCheckin)
                             self.updateAll()
                             self.addPointsForUserId(userId, points: 0)  // 0 points for existing user
@@ -422,37 +425,39 @@ class DataModel: NSObject {
                     }
                 }
                 else {
-                    let theUser = CustomerEntry( displayName: displayName ?? "N/A", email: email ?? "N/A", lastCheckin: lastCheckin)
-                    do {
-                        try ref.setData(from: theUser, encoder: Firestore.Encoder()) { (error) in
-                            // check for error
-                            if let error = error {
-                                os_log("Could not add new user %{public}@, %{public}@", log: OSLog.dataModel, type: .error, userId, error as CVarArg)
+                    if let theName = self.customers[userId]?.displayName ?? displayName {
+                        let theUser = CustomerEntry( displayName: theName, email: email ?? "N/A", lastCheckin: lastCheckin)
+                        do {
+                            try ref.setData(from: theUser, encoder: Firestore.Encoder()) { (error) in
+                                // check for error
+                                if let error = error {
+                                    os_log("Could not add new user %{public}@, %{public}@", log: OSLog.dataModel, type: .error, userId, error as CVarArg)
+                                }
+                                else {
+                                    os_log("Update user %{public}@", log: OSLog.dataModel, type: .info, userId)
+                                    self.customers[userId] = theUser
+                                    self.updateAll()
+                                    // adding points may also refresh too
+                                    self.addPointsForUserId(userId, points: 0)  // 0 points for new user
+                                }
+                                
                             }
-                            else {
-                                os_log("Update user %{public}@", log: OSLog.dataModel, type: .info, userId)
-                                self.customers[userId] = theUser
-                                self.updateAll()
-                                // adding points may also refresh too
-                                self.addPointsForUserId(userId, points: 0)  // 0 points for new user
-                            }
-                            
                         }
-                    }
-                    catch let error {
-                        // log error
-                        os_log("Could not parse new user %{public}@, %{public}@", log: OSLog.dataModel, type: .error, userId, error as CVarArg)
-                    }
+                        catch let error {
+                            // log error
+                            os_log("Could not parse new user %{public}@, %{public}@", log: OSLog.dataModel, type: .error, userId, error as CVarArg)
+                        }
+                    } 
                 }
             }
         }
     }
     
-
+    
     
     public func addPointsForUserId(_ userId:String, points:Int = 1) {
         let ref = db.collection("points").document(userId)
-
+        
         self.db.runTransaction({ (transaction, errorPointer) -> Any? in
             let docSnapshot: DocumentSnapshot
             // get the document via transaction
@@ -471,7 +476,7 @@ class DataModel: NSObject {
             else {
                 transaction.setData(["total":0, "lastUpdate": lastCheckin], forDocument: ref)
             }
-    
+            
             if counter + points < 0 {
                 let err = NSError(domain: "AppErrorDomain", code: -2, userInfo: [NSLocalizedDescriptionKey: "Not enough points to redeem"])
                 errorPointer?.pointee = err
@@ -488,7 +493,7 @@ class DataModel: NSObject {
             } else {
                 os_log("Transaction succeeded", log: OSLog.dataModel, type: .info)
                 self.updateAll()
-
+                
                 if (points == -10) {
                     // redeem
                     self.redeemPointsForUser(userId)
@@ -524,7 +529,7 @@ class DataModel: NSObject {
             }
             self.customers.removeAll()
             os_log("Users Listener found %d documents", log: OSLog.dataModel, type: .info, documents.count)
-
+            
             for document in documents {
                 if let entry = try? document.data(as: CustomerEntry.self) {
                     self.customers[document.documentID] = entry

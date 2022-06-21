@@ -40,8 +40,6 @@ class InitialViewController: UITabBarController {
                     }
                 }
                 vcs[name] = vc
-                
-                
             }
         }
         return vcs

@@ -13,7 +13,7 @@ import os.log
 
 class CustomerViewController: UIViewController {
 
-    @IBOutlet weak var customerQRCodeImageView: UIImageView!
+    @IBOutlet var customerQRCodeImageView: UIImageView!
     
     @IBOutlet weak var tableView: UITableView!
     let dataModel = DataModel.sharedInstance
@@ -40,7 +40,7 @@ class CustomerViewController: UIViewController {
             os_log("Customer View, updating", log: OSLog.customerView, type: .info)
             self.tableView.reloadData()
         })
-        self.loginObserver = dataModel.observe(\.loggedIn, changeHandler: { (theModel, chnage) in
+        self.loginObserver = dataModel.observe(\.loggedIn, changeHandler: { (theModel, change) in
             self.loginUpdated()
         })
         loginUpdated()
@@ -59,13 +59,14 @@ class CustomerViewController: UIViewController {
                 self.customerQRCodeImageView.image = qrImage
                 let smallLogo = UIImage(named: "SmallLogo")
                 smallLogo?.addToCenter(of: self.customerQRCodeImageView, width: 60, height: 60)
+                self.customerQRCodeImageView.contentMode = .scaleAspectFit
             }
         }
         else {
-            self.customerQRCodeImageView.image = nil
+            self.customerQRCodeImageView.subviews.forEach({ $0.removeFromSuperview() })
+            self.customerQRCodeImageView.image = UIImage(named: "SmallLogo")
+            self.customerQRCodeImageView.contentMode = .center
         }
-        
-//        self.tableView.reloadData()
     }
 
     /*
