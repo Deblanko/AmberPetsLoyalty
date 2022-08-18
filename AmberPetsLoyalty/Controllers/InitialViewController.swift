@@ -9,8 +9,11 @@
 import UIKit
 import os.log
 import Firebase
-import FirebaseUI
+import FirebaseAuthUI
 
+import FirebaseOAuthUI
+import FirebaseEmailAuthUI
+import FirebaseFacebookAuthUI
 
 class InitialViewController: UITabBarController {
 
@@ -106,13 +109,13 @@ class InitialViewController: UITabBarController {
         
         if let authUI = FUIAuth.defaultAuthUI() {
             authUI.delegate = self
-            
+//
 //            var actionCodeSettings = ActionCodeSettings()
 //            actionCodeSettings.url = URL(string: "amber-pets-loyalty.firebaseapp.com")
 //            actionCodeSettings.handleCodeInApp = true
-//            //actionCodeSettings.setAndroidPackageName("com.firebase.example", installIfNotAvailable: false, minimumVersion: "12")
-//
-//
+            //actionCodeSettings.setAndroidPackageName("com.firebase.example", installIfNotAvailable: false, minimumVersion: "12")
+
+
 //            let provider = FUIEmailAuth(authUI: authUI,
 //                                        signInMethod: FIREmailLinkAuthSignInMethod,
 //                                        forceSameDevice: true,
@@ -120,13 +123,19 @@ class InitialViewController: UITabBarController {
 //                                        actionCodeSetting: actionCodeSettings)
             // Setup login provider ( Need to import these seperately )
             if #available(iOS 13.0, *) {
-                authUI.providers = [  FUIEmailAuth(), FUIFacebookAuth(), FUIOAuth.appleAuthProvider() ]
+                authUI.providers = [  FUIEmailAuth(),
+                                      FUIFacebookAuth(authUI: authUI),
+                                      FUIOAuth.appleAuthProvider()
+                ]
             } else {
                 // Fallback on earlier versions
-                authUI.providers = [ FUIEmailAuth(), FUIFacebookAuth() ]
+                authUI.providers = [ FUIEmailAuth(),
+                                     FUIFacebookAuth(authUI: authUI)
+                ]
             }
             authUI.shouldAutoUpgradeAnonymousUsers = true
-            authUI.shouldHideCancelButton = true
+            // we can only cancel if we are deleting the account
+            authUI.shouldHideCancelButton = (DataModel.sharedInstance.deletingAccount == false)
             let authViewController = authUI.authViewController()
             present(authViewController, animated: true, completion: {})
         }
@@ -161,18 +170,32 @@ class InitialViewController: UITabBarController {
 
 extension InitialViewController : FUIAuthDelegate {
     
-    func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?) {
+    func authUI(_ authUI: FUIAuth, didSignInWith authDataResult: AuthDataResult?, error: Error?) {
         // handle user and error as necessary
         
-        if let user = user  {
+        if let user = authDataResult?.user  {
             os_log("User displayName-> %@", log: OSLog.initialView, type: .info, String(describing:user.displayName))
             os_log("User phoneNumber-> %@", log: OSLog.initialView, type: .info, String(describing:user.phoneNumber))
             os_log("User uid-> %@", log: OSLog.initialView, type: .info, String(describing:user.uid))
             os_log("User photoURL-> %@", log: OSLog.initialView, type: .info, String(describing:user.photoURL))
             os_log("User providerID-> %@", log: OSLog.initialView, type: .info, String(describing:user.providerID))
             os_log("User tenantID-> %@", log: OSLog.initialView, type: .info, String(describing:user.tenantID))
- //           checkAdminState(email: user.email)
-            DataModel.sharedInstance.addUser(userId: user.uid, displayName: user.displayName, email: user.email)
+            os_log("User email-> %@", log: OSLog.initialView, type: .info, String(describing:user.email))
+            if DataModel.sharedInstance.deletingAccount {
+                DataModel.sharedInstance.delete(user: user)
+                DataModel.sharedInstance.deletingAccount = false
+            }
+            else {
+                DataModel.sharedInstance.addUser(userId: user.uid, displayName: user.displayName, email: user.email)
+            }
+        }
+        else {
+            if let error = error {
+                os_log("Failed to login -> %{public}@", log: OSLog.initialView, type: .error, error.localizedDescription)
+            }
+            DataModel.sharedInstance.deletingAccount = false
+            // log in again
+            self.showLogin()
         }
     }
 }

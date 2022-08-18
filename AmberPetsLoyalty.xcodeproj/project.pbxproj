@@ -246,15 +246,12 @@
 				84452152250FA99000586136 /* Frameworks */,
 				84452153250FA99000586136 /* Resources */,
 				A66611FB3D4B074CF78B3B7E /* [CP] Embed Pods Frameworks */,
-				A6AC1552DE464ADC4991E281 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = AmberPetsLoyalty;
-			packageProductDependencies = (
-			);
 			productName = AmberPetsLoyalty;
 			productReference = 84452155250FA99000586136 /* AmberPetsLoyalty.app */;
 			productType = "com.apple.product-type.application";
@@ -308,8 +305,6 @@
 				Base,
 			);
 			mainGroup = 8445214C250FA99000586136;
-			packageReferences = (
-			);
 			productRefGroup = 84452156250FA99000586136 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -380,23 +375,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AmberPetsLoyalty/Pods-AmberPetsLoyalty-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A6AC1552DE464ADC4991E281 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AmberPetsLoyalty/Pods-AmberPetsLoyalty-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AmberPetsLoyalty/Pods-AmberPetsLoyalty-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AmberPetsLoyalty/Pods-AmberPetsLoyalty-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -620,7 +598,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = AmberPetsLoyalty/AmberPetsLoyalty.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = BWBW33N9W7;
 				EXCLUDED_ARCHS = "";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -630,7 +608,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.deblanko.amberpetsloyalty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -645,7 +623,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = AmberPetsLoyalty/AmberPetsLoyalty.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = BWBW33N9W7;
 				EXCLUDED_ARCHS = "";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -655,7 +633,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.deblanko.amberpetsloyalty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

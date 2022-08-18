@@ -212,11 +212,11 @@
                                 </prototypes>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sde-Li-P6I">
-                                <rect key="frame" x="20" y="737" width="120" height="31"/>
+                                <rect key="frame" x="20" y="737" width="109" height="31"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
                                 <inset key="contentEdgeInsets" minX="10" minY="5" maxX="10" maxY="5"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" title="Change User"/>
+                                <state key="normal" title="User Admin"/>
                                 <connections>
                                     <action selector="logoutButtonClick:" destination="2kN-HM-klp" eventType="touchUpInside" id="kWN-UK-h4I"/>
                                 </connections>
@@ -292,10 +292,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="W6m-RZ-Pdu" kind="show" id="txd-ga-FN3">
-                                        <segue key="commit" inheritsFrom="parent" id="qdw-rv-g88"/>
-                                        <segue key="preview" inheritsFrom="commit" id="ZUN-3n-vOg"/>
-                                    </segue>
+                                    <segue destination="W6m-RZ-Pdu" kind="show" id="txd-ga-FN3"/>
                                     <segue destination="YMK-gy-aUO" kind="show" identifier="showUserInfo" trigger="accessoryAction" id="4yy-e2-kjI">
                                         <segue key="commit" inheritsFrom="parent" id="3ya-vF-sCp"/>
                                         <segue key="preview" inheritsFrom="commit" id="C2u-Iq-0ZD"/>
@@ -502,7 +499,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="txd-ga-FN3"/>
         <segue reference="4yy-e2-kjI"/>
     </inferredMetricsTieBreakers>
     <resources>

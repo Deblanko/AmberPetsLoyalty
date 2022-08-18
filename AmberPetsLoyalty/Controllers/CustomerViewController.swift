@@ -79,13 +79,28 @@ class CustomerViewController: UIViewController {
     }
     */
     
+    func confirmDelete(name:String) {
+
+        let alert = UIAlertController(title:"Deleting:\(name)", message:"Confirm account on next screen to delete the account", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .destructive, handler: { (action) in
+            self.dataModel.deletingAccount = true
+            self.dataModel.logout()
+        }))
+        self.present(alert, animated: true) {
+            //
+        }
+    }
+    
     @IBAction func logoutButtonClick(_ sender: UIButton) {
         if dataModel.loggedInUserId != nil {
             let name = dataModel.userTable().first?.details ?? "N/A"
-            let alert = UIAlertController(title:  "Logout:\(name)", message:"Are you sure?", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
-            alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
+            let alert = UIAlertController(title:  "Logout:\(name)", message:"Confirm Logout or Delete User", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Logout", style: .default, handler: { (action) in
                 self.dataModel.logout()
+            }))
+            alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { (action) in
+                self.confirmDelete(name: name)
             }))
             self.present(alert, animated: true) {
                 //

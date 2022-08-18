@@ -145,6 +145,7 @@ class DataModel: NSObject {
     var redeemListener : ListenerRegistration?
     
     
+    public var deletingAccount = false
     
     // data tables
     
@@ -263,7 +264,7 @@ class DataModel: NSObject {
             if let user = user {
                 self.loggedInUserId = user.uid
                 self.updateAdminFlag(email: user.email)
-                self.addUser(userId: user.uid, displayName: user.displayName, email: user.email)
+                self.addUser(userId: user.uid, displayName: user.displayName ?? "Anonymous", email: user.email)
                 self.customerQRData = CustomerQRData(type: user.providerID, userId: user.uid)
                 self.loggedIn = true    // do this last, it triggers a refresh
             }
@@ -345,7 +346,33 @@ class DataModel: NSObject {
             try Auth.auth().signOut()
             
         } catch let error {
-            os_log("LogoutError %{public}@", log: OSLog.dataModel, type: .error, error as CVarArg)
+            os_log("Logout Error %{public}@", log: OSLog.dataModel, type: .error, error.localizedDescription)
+        }
+    }
+    
+    
+    // delete the user
+    // must call this just after a succesful login
+    public func delete(user:User) {
+        // get a ref to the DB for the users table
+        let ref = self.db.collection("users").document(user.uid)
+        // 1st delete the entry in the table (must be logged in)
+        ref.delete { err in
+            if let error = err {
+                os_log("Error removing user %{public}@ -> %{public}@", log:OSLog.dataModel, type:.error, user.uid, error.localizedDescription)
+            } else {
+                os_log("User %{public}@ successfully removed", log:OSLog.dataModel, type:.info, user.uid)
+                // now delete the user account, must have just logged in to do this
+                user.delete { error in
+                    if let error = error {
+                        // An error happened.
+                        os_log("Delete Error %{public}@", log: OSLog.dataModel, type: .error, error.localizedDescription)
+                    } else {
+                        // Account deleted.
+                        os_log("Account %{public}@ deleted", log: OSLog.dataModel, type: .info, user.displayName ?? "???")
+                    }
+                }
+            }
         }
     }
     
@@ -373,7 +400,7 @@ class DataModel: NSObject {
         let ref = self.db.collection("points").document(userId)
         self.pointsListener = ref.addSnapshotListener { (snapshot, error) in
             if let error = error {
-                os_log("Fetch points for uid %@, Error %{public}@", userId, error as CVarArg)
+                os_log("Fetch points for uid %@, Error %{public}@", userId, error.localizedDescription)
             } else {
                 if let data = snapshot?.data() {
                     if let total = data["total"] as? Int {
@@ -386,12 +413,13 @@ class DataModel: NSObject {
         }
     }
     
+    
     public func updateUser(userId:String, displayName:String) {
         let ref = self.db.collection("users").document(userId)
         let lastCheckin = self.getISO8601Date()
         ref.updateData(["displayName" : displayName, "lastCheckin" : lastCheckin ]) { (error) in
             if let error = error {
-                os_log("update user for uid %@, Error %{public}@", userId, error as CVarArg)
+                os_log("update user for uid %@, Error %{public}@", log:OSLog.dataModel, type:.error, userId, error.localizedDescription)
             } else {
                 if let customerEntry = self.customers[userId] {
                     let updatedCustomerEntry = CustomerEntry(displayName: displayName, email: customerEntry.email, lastCheckin: lastCheckin)
@@ -403,7 +431,7 @@ class DataModel: NSObject {
     }
     
     public func addUser(userId:String, displayName:String?, email:String?) {
-        os_log("Add User for uid %@", log:OSLog.dataModel, type:.info, userId)
+        os_log("Add User %{public}@ for uid %@, ", log:OSLog.dataModel, type:.info, String(describing:displayName), userId)
         let ref = self.db.collection("users").document(userId)
         ref.getDocument { (snapshot, error) in
             if let err = error {
@@ -417,7 +445,7 @@ class DataModel: NSObject {
                             os_log("Could not update lastCheckin for %{public}@, %{public}@", log: OSLog.dataModel, type: .error, userId, error as CVarArg)
                         }
                         else {
-                            let theName = self.customers[userId]?.displayName ?? displayName
+                            let theName = self.customers[userId]?.displayName ?? displayName ?? "Anonymous"
                             self.customers[userId] = CustomerEntry( displayName: theName, email: email ?? "N/A", lastCheckin: lastCheckin)
                             self.updateAll()
                             self.addPointsForUserId(userId, points: 0)  // 0 points for existing user
@@ -425,29 +453,27 @@ class DataModel: NSObject {
                     }
                 }
                 else {
-                    if let theName = self.customers[userId]?.displayName ?? displayName {
-                        let theUser = CustomerEntry( displayName: theName, email: email ?? "N/A", lastCheckin: lastCheckin)
-                        do {
-                            try ref.setData(from: theUser, encoder: Firestore.Encoder()) { (error) in
-                                // check for error
-                                if let error = error {
-                                    os_log("Could not add new user %{public}@, %{public}@", log: OSLog.dataModel, type: .error, userId, error as CVarArg)
-                                }
-                                else {
-                                    os_log("Update user %{public}@", log: OSLog.dataModel, type: .info, userId)
-                                    self.customers[userId] = theUser
-                                    self.updateAll()
-                                    // adding points may also refresh too
-                                    self.addPointsForUserId(userId, points: 0)  // 0 points for new user
-                                }
-                                
+                    let theName = self.customers[userId]?.displayName ?? displayName ?? "Anonymous"
+                    let theUser = CustomerEntry( displayName: theName, email: email ?? "N/A", lastCheckin: lastCheckin)
+                    do {
+                        try ref.setData(from: theUser, encoder: Firestore.Encoder()) { (error) in
+                            // check for error
+                            if let error = error {
+                                os_log("Could not add new user %{public}@, %{public}@", log: OSLog.dataModel, type: .error, userId, error as CVarArg)
+                            }
+                            else {
+                                os_log("Update user %{public}@", log: OSLog.dataModel, type: .info, userId)
+                                self.customers[userId] = theUser
+                                self.updateAll()
+                                // adding points may also refresh too
+                                self.addPointsForUserId(userId, points: 0)  // 0 points for new user
                             }
                         }
-                        catch let error {
-                            // log error
-                            os_log("Could not parse new user %{public}@, %{public}@", log: OSLog.dataModel, type: .error, userId, error as CVarArg)
-                        }
-                    } 
+                    }
+                    catch let error {
+                        // log error
+                        os_log("Could not parse new user %{public}@, %{public}@", log: OSLog.dataModel, type: .error, userId, error.localizedDescription)
+                    }
                 }
             }
         }
