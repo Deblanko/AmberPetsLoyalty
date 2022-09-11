@@ -8,8 +8,33 @@
 
 /* Begin PBXBuildFile section */
 		7619E6E92847E8E100E72D80 /* UserInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7619E6E82847E8E100E72D80 /* UserInfoViewController.swift */; };
-		76A3FCC12809ACA800546CEB /* Pods_AmberPetsLoyalty.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76A3FCC02809ACA800546CEB /* Pods_AmberPetsLoyalty.framework */; };
+		766BBA0328C6866C00971DAE /* Date+FormattedOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766BBA0228C6866C00971DAE /* Date+FormattedOutput.swift */; };
+		766BBA0528C726BD00971DAE /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766BBA0428C726BD00971DAE /* UserInfoView.swift */; };
+		766BBA0728C91DB200971DAE /* TextAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766BBA0628C91DB100971DAE /* TextAlertView.swift */; };
+		766BBA0928C92BF600971DAE /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766BBA0828C92BF600971DAE /* ImagePickerView.swift */; };
+		766BBA0B28CA091B00971DAE /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766BBA0A28CA091B00971DAE /* LogoView.swift */; };
+		766BBA0D28CC84FF00971DAE /* MailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766BBA0C28CC84FF00971DAE /* MailView.swift */; };
+		76BE85CD28B50AAC00A0B2EE /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BE85CC28B50AAC00A0B2EE /* LoginView.swift */; };
+		76BE85CE28B5265100A0B2EE /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BD4BE9251652CE003CFF1D /* UIImage+Extension.swift */; };
+		76BE85D028B55E5C00A0B2EE /* QRReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BE85CF28B55E5C00A0B2EE /* QRReader.swift */; };
+		76BE85D828B79E4900A0B2EE /* DeleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BE85D728B79E4900A0B2EE /* DeleteView.swift */; };
+		76BE85DA28B7C93B00A0B2EE /* AppleSignInModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BE85D928B7C93B00A0B2EE /* AppleSignInModel.swift */; };
+		76BE85DD28B80C3300A0B2EE /* SignInWithAppleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BE85DC28B80C3300A0B2EE /* SignInWithAppleButton.swift */; };
+		76BE85DF28B94D7400A0B2EE /* SecureFieldWithLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BE85DE28B94D7400A0B2EE /* SecureFieldWithLabel.swift */; };
 		76C517FE280B05E900EFD95A /* UserDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C517FD280B05E900EFD95A /* UserDetailsViewController.swift */; };
+		76DFF7E528B418B500C84ADE /* AmberPetsLoyaltyAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DFF7E428B418B500C84ADE /* AmberPetsLoyaltyAppApp.swift */; };
+		76DFF7E728B418B500C84ADE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DFF7E628B418B500C84ADE /* ContentView.swift */; };
+		76DFF7E928B418BB00C84ADE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76DFF7E828B418BB00C84ADE /* Assets.xcassets */; };
+		76DFF7EC28B418BB00C84ADE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76DFF7EB28B418BB00C84ADE /* Preview Assets.xcassets */; };
+		76DFF7F628B418BB00C84ADE /* AmberPetsLoyaltyAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DFF7F528B418BB00C84ADE /* AmberPetsLoyaltyAppTests.swift */; };
+		76DFF80028B418BB00C84ADE /* AmberPetsLoyaltyAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DFF7FF28B418BB00C84ADE /* AmberPetsLoyaltyAppUITests.swift */; };
+		76DFF80228B418BB00C84ADE /* AmberPetsLoyaltyAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DFF80128B418BB00C84ADE /* AmberPetsLoyaltyAppUITestsLaunchTests.swift */; };
+		76DFF81028B41D4400C84ADE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84AC48832528968A00E5B8BD /* GoogleService-Info.plist */; };
+		76DFF81328B41F9300C84ADE /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DFF81228B41F9300C84ADE /* DataModel.swift */; };
+		76DFF81C28B42D6700C84ADE /* AdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DFF81B28B42D6700C84ADE /* AdminView.swift */; };
+		76DFF81E28B42DA700C84ADE /* UsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DFF81D28B42DA700C84ADE /* UsersView.swift */; };
+		76DFF82028B42DC900C84ADE /* RedeemedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DFF81F28B42DC900C84ADE /* RedeemedView.swift */; };
+		76DFF82228B42DF000C84ADE /* CustomerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DFF82128B42DF000C84ADE /* CustomerView.swift */; };
 		843D75492529FAFB00941E7A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843D75482529FAFB00941E7A /* main.swift */; };
 		843D7551252A3A8500941E7A /* PDFTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843D7550252A3A8500941E7A /* PDFTools.swift */; };
 		84452159250FA99000586136 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84452158250FA99000586136 /* AppDelegate.swift */; };
@@ -28,9 +53,24 @@
 		84BD4BF1251E88E2003CFF1D /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BD4BF0251E88E2003CFF1D /* UIView+Extension.swift */; };
 		84D0340E2513CB5500B5AA6E /* osLog+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D0340D2513CB5500B5AA6E /* osLog+Extension.swift */; };
 		84D06ACB2511276300F27A89 /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D06ACA2511276300F27A89 /* InitialViewController.swift */; };
+		E9C5B4F38B0DC68C9DD9462B /* Pods_AmberPetsLoyaltyApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F45D31E7039C6A69E3E668AF /* Pods_AmberPetsLoyaltyApp.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		76DFF7F228B418BB00C84ADE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8445214D250FA99000586136 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 76DFF7E128B418B500C84ADE;
+			remoteInfo = AmberPetsLoyaltyApp;
+		};
+		76DFF7FC28B418BB00C84ADE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8445214D250FA99000586136 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 76DFF7E128B418B500C84ADE;
+			remoteInfo = AmberPetsLoyaltyApp;
+		};
 		8464D6F325267C1800BE8288 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8445214D250FA99000586136 /* Project object */;
@@ -53,10 +93,39 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		6B98E014810DB1B47F6BACC7 /* Pods-AmberPetsLoyalty.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmberPetsLoyalty.debug.xcconfig"; path = "Target Support Files/Pods-AmberPetsLoyalty/Pods-AmberPetsLoyalty.debug.xcconfig"; sourceTree = "<group>"; };
+		01E267D05DE5688AC7A18CFC /* Pods-AmberPetsLoyaltyApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmberPetsLoyaltyApp.release.xcconfig"; path = "Target Support Files/Pods-AmberPetsLoyaltyApp/Pods-AmberPetsLoyaltyApp.release.xcconfig"; sourceTree = "<group>"; };
 		7619E6E82847E8E100E72D80 /* UserInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoViewController.swift; sourceTree = "<group>"; };
-		76A3FCC02809ACA800546CEB /* Pods_AmberPetsLoyalty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_AmberPetsLoyalty.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		766BBA0228C6866C00971DAE /* Date+FormattedOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+FormattedOutput.swift"; sourceTree = "<group>"; };
+		766BBA0428C726BD00971DAE /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
+		766BBA0628C91DB100971DAE /* TextAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAlertView.swift; sourceTree = "<group>"; };
+		766BBA0828C92BF600971DAE /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
+		766BBA0A28CA091B00971DAE /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
+		766BBA0C28CC84FF00971DAE /* MailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailView.swift; sourceTree = "<group>"; };
+		76BE85CC28B50AAC00A0B2EE /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		76BE85CF28B55E5C00A0B2EE /* QRReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRReader.swift; sourceTree = "<group>"; };
+		76BE85D728B79E4900A0B2EE /* DeleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteView.swift; sourceTree = "<group>"; };
+		76BE85D928B7C93B00A0B2EE /* AppleSignInModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignInModel.swift; sourceTree = "<group>"; };
+		76BE85DC28B80C3300A0B2EE /* SignInWithAppleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithAppleButton.swift; sourceTree = "<group>"; };
+		76BE85DE28B94D7400A0B2EE /* SecureFieldWithLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureFieldWithLabel.swift; sourceTree = "<group>"; };
 		76C517FD280B05E900EFD95A /* UserDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsViewController.swift; sourceTree = "<group>"; };
+		76DFF7E228B418B500C84ADE /* Amber Pets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Amber Pets.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		76DFF7E428B418B500C84ADE /* AmberPetsLoyaltyAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmberPetsLoyaltyAppApp.swift; sourceTree = "<group>"; };
+		76DFF7E628B418B500C84ADE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		76DFF7E828B418BB00C84ADE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		76DFF7EB28B418BB00C84ADE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		76DFF7F128B418BB00C84ADE /* AmberPetsLoyaltyAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AmberPetsLoyaltyAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		76DFF7F528B418BB00C84ADE /* AmberPetsLoyaltyAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmberPetsLoyaltyAppTests.swift; sourceTree = "<group>"; };
+		76DFF7FB28B418BB00C84ADE /* AmberPetsLoyaltyAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AmberPetsLoyaltyAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		76DFF7FF28B418BB00C84ADE /* AmberPetsLoyaltyAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmberPetsLoyaltyAppUITests.swift; sourceTree = "<group>"; };
+		76DFF80128B418BB00C84ADE /* AmberPetsLoyaltyAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmberPetsLoyaltyAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		76DFF81228B41F9300C84ADE /* DataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
+		76DFF81B28B42D6700C84ADE /* AdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminView.swift; sourceTree = "<group>"; };
+		76DFF81D28B42DA700C84ADE /* UsersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersView.swift; sourceTree = "<group>"; };
+		76DFF81F28B42DC900C84ADE /* RedeemedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedeemedView.swift; sourceTree = "<group>"; };
+		76DFF82128B42DF000C84ADE /* CustomerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerView.swift; sourceTree = "<group>"; };
+		76DFF82328B432DA00C84ADE /* AmberPetsLoyaltyApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AmberPetsLoyaltyApp.entitlements; sourceTree = "<group>"; };
+		76DFF82428B4B8A000C84ADE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		78F39663CB161AC5E119571E /* Pods-AmberPetsLoyaltyApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmberPetsLoyaltyApp.debug.xcconfig"; path = "Target Support Files/Pods-AmberPetsLoyaltyApp/Pods-AmberPetsLoyaltyApp.debug.xcconfig"; sourceTree = "<group>"; };
 		843D75462529FAFB00941E7A /* MakeQRCodes */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MakeQRCodes; sourceTree = BUILT_PRODUCTS_DIR; };
 		843D75482529FAFB00941E7A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		843D7550252A3A8500941E7A /* PDFTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFTools.swift; sourceTree = "<group>"; };
@@ -81,10 +150,32 @@
 		84BD4BF0251E88E2003CFF1D /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		84D0340D2513CB5500B5AA6E /* osLog+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "osLog+Extension.swift"; sourceTree = "<group>"; };
 		84D06ACA2511276300F27A89 /* InitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
-		B2A735E95C0A6EEA012F94B3 /* Pods-AmberPetsLoyalty.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmberPetsLoyalty.release.xcconfig"; path = "Target Support Files/Pods-AmberPetsLoyalty/Pods-AmberPetsLoyalty.release.xcconfig"; sourceTree = "<group>"; };
+		F45D31E7039C6A69E3E668AF /* Pods_AmberPetsLoyaltyApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AmberPetsLoyaltyApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		76DFF7DF28B418B500C84ADE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E9C5B4F38B0DC68C9DD9462B /* Pods_AmberPetsLoyaltyApp.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76DFF7EE28B418BB00C84ADE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76DFF7F828B418BB00C84ADE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		843D75432529FAFB00941E7A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -96,7 +187,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				76A3FCC12809ACA800546CEB /* Pods_AmberPetsLoyalty.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,21 +200,100 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		13C65A2A5F2493259385E923 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				76A3FCC02809ACA800546CEB /* Pods_AmberPetsLoyalty.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		4188F830D434444B81B9D39B /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				6B98E014810DB1B47F6BACC7 /* Pods-AmberPetsLoyalty.debug.xcconfig */,
-				B2A735E95C0A6EEA012F94B3 /* Pods-AmberPetsLoyalty.release.xcconfig */,
+				78F39663CB161AC5E119571E /* Pods-AmberPetsLoyaltyApp.debug.xcconfig */,
+				01E267D05DE5688AC7A18CFC /* Pods-AmberPetsLoyaltyApp.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		766BBA0128C6858A00971DAE /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				766BBA0228C6866C00971DAE /* Date+FormattedOutput.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		76BE85DB28B80C0F00A0B2EE /* OtherViews */ = {
+			isa = PBXGroup;
+			children = (
+				76BE85DC28B80C3300A0B2EE /* SignInWithAppleButton.swift */,
+				76BE85DE28B94D7400A0B2EE /* SecureFieldWithLabel.swift */,
+				766BBA0428C726BD00971DAE /* UserInfoView.swift */,
+				766BBA0628C91DB100971DAE /* TextAlertView.swift */,
+				766BBA0828C92BF600971DAE /* ImagePickerView.swift */,
+				766BBA0A28CA091B00971DAE /* LogoView.swift */,
+				766BBA0C28CC84FF00971DAE /* MailView.swift */,
+			);
+			path = OtherViews;
+			sourceTree = "<group>";
+		};
+		76DFF7E328B418B500C84ADE /* AmberPetsLoyaltyApp */ = {
+			isa = PBXGroup;
+			children = (
+				766BBA0128C6858A00971DAE /* Extensions */,
+				76BE85DB28B80C0F00A0B2EE /* OtherViews */,
+				76DFF82428B4B8A000C84ADE /* Info.plist */,
+				76DFF82328B432DA00C84ADE /* AmberPetsLoyaltyApp.entitlements */,
+				76DFF81A28B42D4800C84ADE /* TabViews */,
+				76DFF80C28B4192900C84ADE /* Model */,
+				76DFF7E428B418B500C84ADE /* AmberPetsLoyaltyAppApp.swift */,
+				76DFF7E628B418B500C84ADE /* ContentView.swift */,
+				76DFF7E828B418BB00C84ADE /* Assets.xcassets */,
+				76DFF7EA28B418BB00C84ADE /* Preview Content */,
+			);
+			path = AmberPetsLoyaltyApp;
+			sourceTree = "<group>";
+		};
+		76DFF7EA28B418BB00C84ADE /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				76DFF7EB28B418BB00C84ADE /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		76DFF7F428B418BB00C84ADE /* AmberPetsLoyaltyAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				76DFF7F528B418BB00C84ADE /* AmberPetsLoyaltyAppTests.swift */,
+			);
+			path = AmberPetsLoyaltyAppTests;
+			sourceTree = "<group>";
+		};
+		76DFF7FE28B418BB00C84ADE /* AmberPetsLoyaltyAppUITests */ = {
+			isa = PBXGroup;
+			children = (
+				76DFF7FF28B418BB00C84ADE /* AmberPetsLoyaltyAppUITests.swift */,
+				76DFF80128B418BB00C84ADE /* AmberPetsLoyaltyAppUITestsLaunchTests.swift */,
+			);
+			path = AmberPetsLoyaltyAppUITests;
+			sourceTree = "<group>";
+		};
+		76DFF80C28B4192900C84ADE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				76DFF81228B41F9300C84ADE /* DataModel.swift */,
+				76BE85CF28B55E5C00A0B2EE /* QRReader.swift */,
+				76BE85D928B7C93B00A0B2EE /* AppleSignInModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		76DFF81A28B42D4800C84ADE /* TabViews */ = {
+			isa = PBXGroup;
+			children = (
+				76DFF81B28B42D6700C84ADE /* AdminView.swift */,
+				76DFF81D28B42DA700C84ADE /* UsersView.swift */,
+				76DFF81F28B42DC900C84ADE /* RedeemedView.swift */,
+				76DFF82128B42DF000C84ADE /* CustomerView.swift */,
+				76BE85CC28B50AAC00A0B2EE /* LoginView.swift */,
+				76BE85D728B79E4900A0B2EE /* DeleteView.swift */,
+			);
+			path = TabViews;
 			sourceTree = "<group>";
 		};
 		843D75472529FAFB00941E7A /* MakeQRCodes */ = {
@@ -142,9 +311,12 @@
 				84452157250FA99000586136 /* AmberPetsLoyalty */,
 				8464D6EF25267C1800BE8288 /* AmberPetsLoyaltyTests */,
 				843D75472529FAFB00941E7A /* MakeQRCodes */,
+				76DFF7E328B418B500C84ADE /* AmberPetsLoyaltyApp */,
+				76DFF7F428B418BB00C84ADE /* AmberPetsLoyaltyAppTests */,
+				76DFF7FE28B418BB00C84ADE /* AmberPetsLoyaltyAppUITests */,
 				84452156250FA99000586136 /* Products */,
 				4188F830D434444B81B9D39B /* Pods */,
-				13C65A2A5F2493259385E923 /* Frameworks */,
+				A9E9850E0588A938C8D16AE8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -154,6 +326,9 @@
 				84452155250FA99000586136 /* AmberPetsLoyalty.app */,
 				8464D6EE25267C1800BE8288 /* AmberPetsLoyaltyTests.xctest */,
 				843D75462529FAFB00941E7A /* MakeQRCodes */,
+				76DFF7E228B418B500C84ADE /* Amber Pets.app */,
+				76DFF7F128B418BB00C84ADE /* AmberPetsLoyaltyAppTests.xctest */,
+				76DFF7FB28B418BB00C84ADE /* AmberPetsLoyaltyAppUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -217,9 +392,72 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		A9E9850E0588A938C8D16AE8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F45D31E7039C6A69E3E668AF /* Pods_AmberPetsLoyaltyApp.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		76DFF7E128B418B500C84ADE /* AmberPetsLoyaltyApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 76DFF80328B418BB00C84ADE /* Build configuration list for PBXNativeTarget "AmberPetsLoyaltyApp" */;
+			buildPhases = (
+				74423C9AEF8E217447E34B4B /* [CP] Check Pods Manifest.lock */,
+				76DFF7DE28B418B500C84ADE /* Sources */,
+				76DFF7DF28B418B500C84ADE /* Frameworks */,
+				76DFF7E028B418B500C84ADE /* Resources */,
+				42D3C6A61BA45331921DDD87 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AmberPetsLoyaltyApp;
+			productName = AmberPetsLoyaltyApp;
+			productReference = 76DFF7E228B418B500C84ADE /* Amber Pets.app */;
+			productType = "com.apple.product-type.application";
+		};
+		76DFF7F028B418BB00C84ADE /* AmberPetsLoyaltyAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 76DFF80628B418BB00C84ADE /* Build configuration list for PBXNativeTarget "AmberPetsLoyaltyAppTests" */;
+			buildPhases = (
+				76DFF7ED28B418BB00C84ADE /* Sources */,
+				76DFF7EE28B418BB00C84ADE /* Frameworks */,
+				76DFF7EF28B418BB00C84ADE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				76DFF7F328B418BB00C84ADE /* PBXTargetDependency */,
+			);
+			name = AmberPetsLoyaltyAppTests;
+			productName = AmberPetsLoyaltyAppTests;
+			productReference = 76DFF7F128B418BB00C84ADE /* AmberPetsLoyaltyAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		76DFF7FA28B418BB00C84ADE /* AmberPetsLoyaltyAppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 76DFF80928B418BB00C84ADE /* Build configuration list for PBXNativeTarget "AmberPetsLoyaltyAppUITests" */;
+			buildPhases = (
+				76DFF7F728B418BB00C84ADE /* Sources */,
+				76DFF7F828B418BB00C84ADE /* Frameworks */,
+				76DFF7F928B418BB00C84ADE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				76DFF7FD28B418BB00C84ADE /* PBXTargetDependency */,
+			);
+			name = AmberPetsLoyaltyAppUITests;
+			productName = AmberPetsLoyaltyAppUITests;
+			productReference = 76DFF7FB28B418BB00C84ADE /* AmberPetsLoyaltyAppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		843D75452529FAFB00941E7A /* MakeQRCodes */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 843D754A2529FAFB00941E7A /* Build configuration list for PBXNativeTarget "MakeQRCodes" */;
@@ -241,11 +479,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 84452169250FA99700586136 /* Build configuration list for PBXNativeTarget "AmberPetsLoyalty" */;
 			buildPhases = (
-				56B404FB27E3DF8C96096D86 /* [CP] Check Pods Manifest.lock */,
 				84452151250FA99000586136 /* Sources */,
 				84452152250FA99000586136 /* Frameworks */,
 				84452153250FA99000586136 /* Resources */,
-				A66611FB3D4B074CF78B3B7E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -280,10 +516,21 @@
 		8445214D250FA99000586136 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1200;
+				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1210;
 				ORGANIZATIONNAME = Deblanko;
 				TargetAttributes = {
+					76DFF7E128B418B500C84ADE = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
+					76DFF7F028B418BB00C84ADE = {
+						CreatedOnToolsVersion = 13.4.1;
+						TestTargetID = 76DFF7E128B418B500C84ADE;
+					};
+					76DFF7FA28B418BB00C84ADE = {
+						CreatedOnToolsVersion = 13.4.1;
+						TestTargetID = 76DFF7E128B418B500C84ADE;
+					};
 					843D75452529FAFB00941E7A = {
 						CreatedOnToolsVersion = 12.0.1;
 					};
@@ -309,14 +556,41 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				76DFF7E128B418B500C84ADE /* AmberPetsLoyaltyApp */,
 				84452154250FA99000586136 /* AmberPetsLoyalty */,
 				8464D6ED25267C1800BE8288 /* AmberPetsLoyaltyTests */,
 				843D75452529FAFB00941E7A /* MakeQRCodes */,
+				76DFF7F028B418BB00C84ADE /* AmberPetsLoyaltyAppTests */,
+				76DFF7FA28B418BB00C84ADE /* AmberPetsLoyaltyAppUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		76DFF7E028B418B500C84ADE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76DFF7EC28B418BB00C84ADE /* Preview Assets.xcassets in Resources */,
+				76DFF7E928B418BB00C84ADE /* Assets.xcassets in Resources */,
+				76DFF81028B41D4400C84ADE /* GoogleService-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76DFF7EF28B418BB00C84ADE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76DFF7F928B418BB00C84ADE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		84452153250FA99000586136 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -338,7 +612,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		56B404FB27E3DF8C96096D86 /* [CP] Check Pods Manifest.lock */ = {
+		42D3C6A61BA45331921DDD87 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AmberPetsLoyaltyApp/Pods-AmberPetsLoyaltyApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AmberPetsLoyaltyApp/Pods-AmberPetsLoyaltyApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AmberPetsLoyaltyApp/Pods-AmberPetsLoyaltyApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		74423C9AEF8E217447E34B4B /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -353,33 +644,60 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-AmberPetsLoyalty-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-AmberPetsLoyaltyApp-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A66611FB3D4B074CF78B3B7E /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AmberPetsLoyalty/Pods-AmberPetsLoyalty-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AmberPetsLoyalty/Pods-AmberPetsLoyalty-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AmberPetsLoyalty/Pods-AmberPetsLoyalty-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		76DFF7DE28B418B500C84ADE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76BE85DF28B94D7400A0B2EE /* SecureFieldWithLabel.swift in Sources */,
+				76DFF81E28B42DA700C84ADE /* UsersView.swift in Sources */,
+				76DFF7E728B418B500C84ADE /* ContentView.swift in Sources */,
+				766BBA0528C726BD00971DAE /* UserInfoView.swift in Sources */,
+				766BBA0928C92BF600971DAE /* ImagePickerView.swift in Sources */,
+				76DFF7E528B418B500C84ADE /* AmberPetsLoyaltyAppApp.swift in Sources */,
+				76BE85CE28B5265100A0B2EE /* UIImage+Extension.swift in Sources */,
+				766BBA0B28CA091B00971DAE /* LogoView.swift in Sources */,
+				76DFF82028B42DC900C84ADE /* RedeemedView.swift in Sources */,
+				76BE85D028B55E5C00A0B2EE /* QRReader.swift in Sources */,
+				76DFF82228B42DF000C84ADE /* CustomerView.swift in Sources */,
+				766BBA0328C6866C00971DAE /* Date+FormattedOutput.swift in Sources */,
+				766BBA0728C91DB200971DAE /* TextAlertView.swift in Sources */,
+				76DFF81C28B42D6700C84ADE /* AdminView.swift in Sources */,
+				76BE85DD28B80C3300A0B2EE /* SignInWithAppleButton.swift in Sources */,
+				76BE85DA28B7C93B00A0B2EE /* AppleSignInModel.swift in Sources */,
+				76BE85D828B79E4900A0B2EE /* DeleteView.swift in Sources */,
+				76BE85CD28B50AAC00A0B2EE /* LoginView.swift in Sources */,
+				76DFF81328B41F9300C84ADE /* DataModel.swift in Sources */,
+				766BBA0D28CC84FF00971DAE /* MailView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76DFF7ED28B418BB00C84ADE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76DFF7F628B418BB00C84ADE /* AmberPetsLoyaltyAppTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76DFF7F728B418BB00C84ADE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76DFF80028B418BB00C84ADE /* AmberPetsLoyaltyAppUITests.swift in Sources */,
+				76DFF80228B418BB00C84ADE /* AmberPetsLoyaltyAppUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		843D75422529FAFB00941E7A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -420,6 +738,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		76DFF7F328B418BB00C84ADE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 76DFF7E128B418B500C84ADE /* AmberPetsLoyaltyApp */;
+			targetProxy = 76DFF7F228B418BB00C84ADE /* PBXContainerItemProxy */;
+		};
+		76DFF7FD28B418BB00C84ADE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 76DFF7E128B418B500C84ADE /* AmberPetsLoyaltyApp */;
+			targetProxy = 76DFF7FC28B418BB00C84ADE /* PBXContainerItemProxy */;
+		};
 		8464D6F425267C1800BE8288 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 84452154250FA99000586136 /* AmberPetsLoyalty */;
@@ -447,6 +775,160 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		76DFF80428B418BB00C84ADE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 78F39663CB161AC5E119571E /* Pods-AmberPetsLoyaltyApp.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_ENTITLEMENTS = AmberPetsLoyaltyApp/AmberPetsLoyaltyApp.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 12;
+				DEVELOPMENT_ASSET_PATHS = "\"AmberPetsLoyaltyApp/Preview Content\"";
+				DEVELOPMENT_TEAM = BWBW33N9W7;
+				ENABLE_PREVIEWS = YES;
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AmberPetsLoyaltyApp/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 2.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.deblanko.amberpetsloyalty;
+				PRODUCT_NAME = "Amber Pets";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		76DFF80528B418BB00C84ADE /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 01E267D05DE5688AC7A18CFC /* Pods-AmberPetsLoyaltyApp.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_ENTITLEMENTS = AmberPetsLoyaltyApp/AmberPetsLoyaltyApp.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 12;
+				DEVELOPMENT_ASSET_PATHS = "\"AmberPetsLoyaltyApp/Preview Content\"";
+				DEVELOPMENT_TEAM = BWBW33N9W7;
+				ENABLE_PREVIEWS = YES;
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AmberPetsLoyaltyApp/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 2.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.deblanko.amberpetsloyalty;
+				PRODUCT_NAME = "Amber Pets";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		76DFF80728B418BB00C84ADE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BWBW33N9W7;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.deblanko.AmberPetsLoyaltyAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AmberPetsLoyaltyApp.app/AmberPetsLoyaltyApp";
+			};
+			name = Debug;
+		};
+		76DFF80828B418BB00C84ADE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BWBW33N9W7;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.deblanko.AmberPetsLoyaltyAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AmberPetsLoyaltyApp.app/AmberPetsLoyaltyApp";
+			};
+			name = Release;
+		};
+		76DFF80A28B418BB00C84ADE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BWBW33N9W7;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.deblanko.AmberPetsLoyaltyAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = AmberPetsLoyaltyApp;
+			};
+			name = Debug;
+		};
+		76DFF80B28B418BB00C84ADE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BWBW33N9W7;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.deblanko.AmberPetsLoyaltyAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = AmberPetsLoyaltyApp;
+			};
+			name = Release;
+		};
 		843D754B2529FAFB00941E7A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -593,12 +1075,11 @@
 		};
 		8445216A250FA99700586136 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6B98E014810DB1B47F6BACC7 /* Pods-AmberPetsLoyalty.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = AmberPetsLoyalty/AmberPetsLoyalty.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = BWBW33N9W7;
 				EXCLUDED_ARCHS = "";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -608,7 +1089,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.deblanko.amberpetsloyalty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -618,12 +1099,11 @@
 		};
 		8445216B250FA99700586136 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B2A735E95C0A6EEA012F94B3 /* Pods-AmberPetsLoyalty.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = AmberPetsLoyalty/AmberPetsLoyalty.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = BWBW33N9W7;
 				EXCLUDED_ARCHS = "";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -633,7 +1113,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.deblanko.amberpetsloyalty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -686,6 +1166,33 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		76DFF80328B418BB00C84ADE /* Build configuration list for PBXNativeTarget "AmberPetsLoyaltyApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				76DFF80428B418BB00C84ADE /* Debug */,
+				76DFF80528B418BB00C84ADE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		76DFF80628B418BB00C84ADE /* Build configuration list for PBXNativeTarget "AmberPetsLoyaltyAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				76DFF80728B418BB00C84ADE /* Debug */,
+				76DFF80828B418BB00C84ADE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		76DFF80928B418BB00C84ADE /* Build configuration list for PBXNativeTarget "AmberPetsLoyaltyAppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				76DFF80A28B418BB00C84ADE /* Debug */,
+				76DFF80B28B418BB00C84ADE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		843D754A2529FAFB00941E7A /* Build configuration list for PBXNativeTarget "MakeQRCodes" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

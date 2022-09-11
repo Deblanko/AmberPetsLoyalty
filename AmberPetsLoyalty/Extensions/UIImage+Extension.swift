@@ -20,11 +20,15 @@ extension UIImage {
 
            filter?.setValue(data, forKey: "inputMessage")
            filter?.setValue("Q", forKey: "inputCorrectionLevel")
-
+           
            if let qrCodeImage = (filter?.outputImage){
-                return UIImage(ciImage: qrCodeImage)
+               let context = CIContext()
+               if let qrCodeCGImage = context.createCGImage(qrCodeImage, from: qrCodeImage.extent) {
+                   return UIImage(cgImage: qrCodeCGImage)
+               }
+               //                return UIImage(ciImage: qrCodeImage)
            }
-
+           
            return nil
        }
     

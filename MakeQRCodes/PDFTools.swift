@@ -88,7 +88,7 @@ class PDFTools: NSObject {
                             
                             logo?.draw(in: NSRect(x: xx + (qrSize/2) - (30/2), y: yy + (qrSize/2) - (30/2), width: 30, height: 30))
                             
-                            let label = NSString(string: "ID:\(type)\(start+index)")
+                            let label = NSString(string: "ID:\(type) \(start+index)")
                             let textRect = label.size()
                             let xx2 = (column * xMult) + ((xMult - textRect.width) / 2)
                             let point = NSPoint(x: xx2, y: (row * yMult) + 120)

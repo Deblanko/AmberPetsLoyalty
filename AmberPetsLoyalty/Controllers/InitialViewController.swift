@@ -13,7 +13,6 @@ import FirebaseAuthUI
 
 import FirebaseOAuthUI
 import FirebaseEmailAuthUI
-import FirebaseFacebookAuthUI
 
 class InitialViewController: UITabBarController {
 
@@ -124,13 +123,11 @@ class InitialViewController: UITabBarController {
             // Setup login provider ( Need to import these seperately )
             if #available(iOS 13.0, *) {
                 authUI.providers = [  FUIEmailAuth(),
-                                      FUIFacebookAuth(authUI: authUI),
                                       FUIOAuth.appleAuthProvider()
                 ]
             } else {
                 // Fallback on earlier versions
-                authUI.providers = [ FUIEmailAuth(),
-                                     FUIFacebookAuth(authUI: authUI)
+                authUI.providers = [ FUIEmailAuth()
                 ]
             }
             authUI.shouldAutoUpgradeAnonymousUsers = true
