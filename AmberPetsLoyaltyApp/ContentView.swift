@@ -10,7 +10,6 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var firebase = DataModel()
-//    @StateObject private var firebase = DataModel.sharedInstance
 
     @State private var tabSelection = 1
     

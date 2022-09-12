@@ -11,16 +11,10 @@ import Photos
 
 struct LogoView: View {
     @Environment(\.presentationMode) var presentationMode
-    @State var vm : DataModel
+    @ObservedObject var vm : DataModel
     @State var showPicker = false
-    @State var imageUpdated = false
     
     var body: some View {
-        if imageUpdated {
-            let _ = vm.lastRefresh = Date()
-            let _ = presentationMode.wrappedValue.dismiss()
-        }
-        
         if let customLogo = vm.logoImage {
             Image(uiImage: customLogo)
                 .resizable()
@@ -28,7 +22,7 @@ struct LogoView: View {
 
         }
         else if let customLiveLogo = vm.logoLive {
-            LivePhotoView(livephoto: customLiveLogo)
+            LivePhotoView(livephoto: customLiveLogo, playbackStyle: .hint)
                 .scaledToFit()
         }
         else {
@@ -51,11 +45,13 @@ struct LogoView: View {
             showPicker = true
         }
         .sheet(isPresented: $showPicker) {
-            ImagePicker(imageUpdated: $imageUpdated)
+            ImagePicker(logoImage: $vm.logoImage, logoLive: $vm.logoLive)
+                .ignoresSafeArea(.keyboard)
         }
         .padding()
-        Button("Cancel") {
+        Button("OK") {
             presentationMode.wrappedValue.dismiss()
+            vm.lastRefresh = Date()
         }
         .padding()
     }

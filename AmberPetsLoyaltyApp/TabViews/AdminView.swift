@@ -56,7 +56,9 @@ struct AdminView: View {
                 }
                 else {
                     TextField("Name (Optional)", text: $displayName)
+                        .padding()
                     TextField("Email (Optional)", text: $email)
+                        .padding()
                     Button("Add as New Customer") {
                         if email.isEmpty || !vm.emailExists(email) {
                             vm.addUser(

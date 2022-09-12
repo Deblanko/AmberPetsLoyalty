@@ -11,7 +11,8 @@ import SwiftUI
 import os.log
 
 struct ImagePicker: UIViewControllerRepresentable {
-    @Binding var imageUpdated: Bool
+    @Binding var logoImage: UIImage?
+    @Binding var logoLive : PHLivePhoto?
 
 
     func makeUIViewController(context: Context) -> PHPickerViewController {
@@ -48,33 +49,34 @@ struct ImagePicker: UIViewControllerRepresentable {
             }
             
             
-            if provider.canLoadObject(ofClass: PHLivePhoto.self) {
+            if provider.hasItemConformingToTypeIdentifier("com.apple.live-photo-bundle") {
                 provider.loadObject(ofClass: PHLivePhoto.self) { livePhoto, err in
                     if let photo = livePhoto as? PHLivePhoto {
-                        DataModel.saveLogo(logoImage: nil, logoLive: photo)
                         DispatchQueue.main.async {
-                            self.parent.imageUpdated = true
+                            self.parent.logoImage = nil
+                            self.parent.logoLive = photo
                         }
+                        DataModel.saveLogo(logoImage: nil, logoLive: photo)
                     }
                 }
             } else if provider.canLoadObject(ofClass: UIImage.self) {
                 provider.loadObject(ofClass: UIImage.self) { image, err in
                     if let image = image as? UIImage {
-                        DataModel.saveLogo(logoImage: image, logoLive: nil)
                         DispatchQueue.main.async {
-                            self.parent.imageUpdated = true
+                            self.parent.logoImage = image
+                            self.parent.logoLive = nil
                         }
+                        DataModel.saveLogo(logoImage: image, logoLive: nil)
                     }
                 }
             }
-            
-            
         }
     }
 }
 
 struct LivePhotoView: UIViewRepresentable {
     var livephoto: PHLivePhoto
+    var playbackStyle : PHLivePhotoViewPlaybackStyle
 
     func makeUIView(context: Context) -> PHLivePhotoView {
         return PHLivePhotoView()
@@ -82,5 +84,6 @@ struct LivePhotoView: UIViewRepresentable {
 
     func updateUIView(_ lpView: PHLivePhotoView, context: Context) {
         lpView.livePhoto = livephoto
+        lpView.startPlayback(with: playbackStyle)
     }
 }

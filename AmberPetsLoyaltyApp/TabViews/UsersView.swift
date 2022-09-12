@@ -146,7 +146,7 @@ struct MultipleSelectionRow: View {
                     Spacer()
                     Image(systemName: "eye")
                         .foregroundColor(colourForLastVisit)
-                    // update colour, for last day, last week, last month, longer ?
+
                 }
             }
             Button {

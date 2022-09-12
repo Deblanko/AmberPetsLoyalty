@@ -25,29 +25,28 @@ struct RedeemedView: View {
                                 Text(entry.date)    // already made pretty
                             }
                             Spacer()
-                            Button {
-                                if let user = self.allUsers.first(where: { $0.id == entry.id }) {
+                            if let user = self.allUsers.first(where: { $0.id == entry.userId }) {
+                                Button {
                                     showSheet = true
                                     selectedUser = user
+                                } label: {
+                                    Image(systemName: "info.circle")
                                 }
-                            } label: {
-                                Image(systemName: "info.circle")
-                            }
-                            .buttonStyle(BorderlessButtonStyle())
-                            .sheet(isPresented: $showSheet) {
-                                if let user = selectedUser {
-                                    UserInfoView(user: user)
-                                }
-                            }
-                        }
-                    }
-                } header: {
-                    Text(element)
-                }
-                
-                
-            }
-        }
+                                .buttonStyle(BorderlessButtonStyle())
+                                .sheet(isPresented: $showSheet) {
+                                    if let user = selectedUser {
+                                        UserInfoView(user: user)
+                                    }
+                                }   // sheet
+                            }   // if
+                        }   // HStack
+                    }   // ForEach
+                }   // Section
+            header: {
+                Text(element)
+            }   // Header
+            }   // ForEach
+        }   // List
         .onAppear() {
             self.allUsers = vm.allUsers
         }

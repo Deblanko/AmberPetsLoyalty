@@ -52,7 +52,8 @@ struct Redeemed : Codable {
 }
 
 struct RedeemedTable : Identifiable {
-    let id: String
+    let id = UUID()
+    let userId: String
     let displayName: String
     let date: String
 }
@@ -69,7 +70,6 @@ struct UserEntry : Identifiable, Hashable {
 }
 
 struct CustomerEntry : Codable {
-    //    var userId : String = ""  ???
     let displayName : String?
     let email: String
     var lastCheckin: String
@@ -81,17 +81,7 @@ struct CustomerEntry : Codable {
         let personNameComponents = PersonNameComponentsFormatter().personNameComponents(from: name)
         return personNameComponents?.familyName ?? name
     }
-    
-//    func getPoints(userId:String) -> Int? {
-//        var result : Int? = nil
-//        if let points = DataModel.sharedInstance.points[userId] {
-//            result = points.total
-//        }
-//        return result
-//    }
-    
-
-    
+        
     enum CodingKeys : String, CodingKey{
         case displayName
         case email
@@ -101,12 +91,9 @@ struct CustomerEntry : Codable {
 
 
 class DataModel: ObservableObject {
-    let log = OSLog(subsystem: OSLogger.subsystem, category: "DataModel")
-    
-    static let sharedInstance = DataModel()
+    static let log = OSLog(subsystem: OSLogger.subsystem, category: "DataModel")
     
     static let imageCache = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-    
     
     let redeemAmount = 10
     
@@ -118,18 +105,23 @@ class DataModel: ObservableObject {
     
     let context = CIContext()
     let filter = CIFilter.qrCodeGenerator()
-    
-    
+
     // KVOs
     @Published var isAdmin = false
-    
     @Published var loginState = LoginState.unknown
     var loginProvider : Provider?
     @Published var lastRefresh = Date()
     @Published var errorMessage : String? = nil
+    @Published var logoImage : UIImage?
+    @Published var logoLive : PHLivePhoto?
     
     var appleSignInModel : AppleSignInModel?
-    
+    // current QR data
+    var customerQRData : CustomerQRData?
+    // id of logged in user
+    var loggedInUserId : String? = nil
+
+    // MARK: Computed properties
     var qrImage : UIImage? {
         var result : UIImage?
         if let theCode = self.base64StringFromCustomerData() {
@@ -139,11 +131,22 @@ class DataModel: ObservableObject {
         }
         return result
     }
+
+    public var loggedInName : String {
+        let name = self.userTable().first?.details ?? "N/A"
+        return name
+    }
+
+    public var currentUserEmail : String {
+        if let userId = self.loggedInUserId, let customer = self.customers[userId] {
+            return customer.email
+        }
+        else {
+            return "???"
+        }
+    }
     
-    // current QR data
-    var customerQRData : CustomerQRData?
-    
-    // Cached data, updated by DB listeners
+    // MARK: Cached data, updated by DB listeners
     // customer and users view
     var customers = [String : CustomerEntry]()
     // used by customer and users views
@@ -152,23 +155,12 @@ class DataModel: ObservableObject {
     var redeemed = [Redeemed]()
     
     var redeemedTableSections = [String]()
-    
     var redeemedTableData = [[RedeemedTable]]()
-    
-    // id of logged in user
-    var loggedInUserId : String? = nil
     
     var usersListener : ListenerRegistration?
     var pointsListener : ListenerRegistration?
     var redeemListener : ListenerRegistration?
     
-    public var loggedInName : String {
-        let name = self.userTable().first?.details ?? "N/A"
-        return name
-    }
-    
-
-
     // data tables
     
     // info for customer details (mini table with title and details)
@@ -197,7 +189,7 @@ class DataModel: ObservableObject {
     
     private func updateAll() {
         self.lastRefresh = Date()
-        os_log("Updating lastRefresh %{public}@", log: self.log, type: .info, self.lastRefresh.description)
+        os_log("Updating lastRefresh %{public}@", log: Self.log, type: .info, self.lastRefresh.description)
     }
     
     public func getPoints(userId:String) -> Int? {
@@ -231,7 +223,7 @@ class DataModel: ObservableObject {
         var current = now
         for _ in 0...5 {
             // create a section title
-            os_log("Section Date:%{public}@", log: self.log, type: .info, current.description)
+            os_log("Section Date:%{public}@", log: Self.log, type: .info, current.description)
             let sectionTitle = sectionFormatter.string(from: current)
             self.redeemedTableSections.append(sectionTitle)
             if let newDate = calendar.date(byAdding: .month, value: -1, to: current) {
@@ -276,7 +268,7 @@ class DataModel: ObservableObject {
                 let ordDay = ordFormatter.string(from: NSNumber(value: day)) ?? "\(day)"
                 dateString = dateString.replacingOccurrences(of: "Ord", with: ordDay)
                 
-                let entry = RedeemedTable(id: item.userId, displayName: displayName, date: dateString)
+                let entry = RedeemedTable(userId: item.userId, displayName: displayName, date: dateString)
                 redeemedTableData[monthsDiff].append(entry)
             }
         }
@@ -286,7 +278,7 @@ class DataModel: ObservableObject {
     init() {
         // listener for logged in/out
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
-            os_log("Auth -> %@", log: self.log, type: .info, String(describing:user?.uid))
+            os_log("Auth -> %@", log: Self.log, type: .info, String(describing:user?.uid))
             if let user = user {
                 self.loggedInUserId = user.uid
                 self.updateAdminFlag(user: user) { isAdmin in
@@ -355,23 +347,55 @@ class DataModel: ObservableObject {
         return result
     }
     
-    public var currentUserEmail : String {
-        if let userId = self.loggedInUserId, let customer = self.customers[userId] {
-            return customer.email
+    public func loadLogo() {
+        guard let logoUrl = Self.imageCache?.appendingPathComponent("logo.jpg") else {
+            return
         }
-        else {
-            return "???"
-        }
+        self.logoImage = UIImage(contentsOfFile: logoUrl.path)
+        
+        loadLivePhoto() // Async loader
     }
     
+    func loadLivePhoto() {
+        guard let imageUrl = Self.imageCache?.appendingPathComponent("Live.heic"), let movieUrl = Self.imageCache?.appendingPathComponent("Live.mov") else {
+            return
+        }
+        
+        let placeHolder = UIImage(contentsOfFile: imageUrl.path)
+        PHLivePhoto.request(
+            withResourceFileURLs: [imageUrl, movieUrl],
+            placeholderImage: placeHolder,
+            targetSize: CGSize.zero,
+            contentMode: PHImageContentMode.aspectFit) { livePhoto, info in
+                if let livePhoto = livePhoto {
+                    DispatchQueue.main.async {
+                        self.logoLive = livePhoto
+                    }
+                }
+                else {
+                    os_log("Failed to create live image: %{public}@", log:Self.log, type:.error, info)
+                }
+            }
+    }
+    
+
+        
     static public func saveLogo(logoImage:UIImage? = nil, logoLive:PHLivePhoto? = nil) {
+        // delete logo images before we create new ones
+        if let imageUrl = Self.imageCache?.appendingPathComponent("logo.jpg") {
+            try? FileManager.default.removeItem(at: imageUrl)
+        }
+        if let imageUrl = Self.imageCache?.appendingPathComponent("Live.heic") {
+            try? FileManager.default.removeItem(at: imageUrl)
+        }
+        if let movieUrl = Self.imageCache?.appendingPathComponent("Live.mov") {
+            try? FileManager.default.removeItem(at: movieUrl)
+        }
+        // save new ones
         if let image = logoImage {
             if let data = image.jpegData(compressionQuality: 1.0), let imageUrl = Self.imageCache?.appendingPathComponent("logo.jpg") {
                 try? data.write(to: imageUrl)
             }
-        }
-        else {
-            // delete logo image
         }
         if let image = logoLive {
             extractResources(from: image)
@@ -388,7 +412,7 @@ class DataModel: ObservableObject {
             let url : URL?
             switch resource.type {
             case .photo:
-                url = Self.imageCache?.appendingPathComponent("Live.jpg")
+                url = Self.imageCache?.appendingPathComponent("Live.heic")
             case .pairedVideo:
                 url = Self.imageCache?.appendingPathComponent("Live.mov")
             default:
@@ -396,6 +420,9 @@ class DataModel: ObservableObject {
             }
             if let url = url {
                 PHAssetResourceManager.default().writeData(for: resource, toFile: url, options: options) { error in
+                    if let error = error {
+                        os_log("Failed to save to %{public}@ -> %{public}@", log: Self.log, type:.error, url.path, error.localizedDescription)
+                    }
                     group.leave()
                 }
             }
@@ -403,24 +430,17 @@ class DataModel: ObservableObject {
         group.wait()
     }
     
-    public var logoImage : UIImage? {
-        guard let imageUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("logo.jpg") else {
-            return nil
-        }
-        
-        return UIImage(contentsOfFile: imageUrl.path)
-    }
-    
-    public var logoLive : PHLivePhoto? {
-        // TODO: load live photo
-        return nil
-    }
-    
     public func removeCustomLogo() {
-        guard let imageUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("logo.jpg") else {
+        guard let logoUrl = Self.imageCache?.appendingPathComponent("logo.jpg"),
+              let imageUrl = Self.imageCache?.appendingPathComponent("Image.Live"),
+              let movieUrl = Self.imageCache?.appendingPathComponent("Image.mov") else {
             return
         }
+        try? FileManager.default.removeItem(at: logoUrl)
         try? FileManager.default.removeItem(at: imageUrl)
+        try? FileManager.default.removeItem(at: movieUrl)
+        self.logoLive = nil
+        self.logoImage = nil
         self.lastRefresh = Date()
     }
     
@@ -471,9 +491,9 @@ class DataModel: ObservableObject {
     public func logout() {
         do {
             try Auth.auth().signOut()
-//            self.loginState = .loggedOut
+//            Self.loginState = .loggedOut
         } catch let error {
-            os_log("Logout Error %{public}@", log: self.log, type: .error, error.localizedDescription)
+            os_log("Logout Error %{public}@", log: Self.log, type: .error, error.localizedDescription)
         }
     }
     
@@ -487,7 +507,7 @@ class DataModel: ObservableObject {
                 //...
                 if let error = error {
                     // inform user?
-                    os_log("Signin Error %{public}@", log: self.log, type: .error, error.localizedDescription)
+                    os_log("Signin Error %{public}@", log: Self.log, type: .error, error.localizedDescription)
                     self.errorMessage = error.localizedDescription
                 }
                 else {
@@ -502,7 +522,7 @@ class DataModel: ObservableObject {
                 user.reauthenticate(with: credential) { result, error in
                     if let error = error {
                         // inform user?
-                        os_log("Signin Error %{public}@", log: self.log, type: .error, error.localizedDescription)
+                        os_log("Signin Error %{public}@", log: Self.log, type: .error, error.localizedDescription)
                         self.errorMessage = error.localizedDescription
                     }
                     else {
@@ -530,9 +550,9 @@ class DataModel: ObservableObject {
             dispatchGroup.enter()
             deleteTableEntry(user.uid, tableName: tableName) { err in
                 if let error = err {
-                    os_log("Error removing uid %{public}@ in %{public}@ -> %{public}@", log:self.log, type:.error, user.uid, tableName, error.localizedDescription)
+                    os_log("Error removing uid %{public}@ in %{public}@ -> %{public}@", log:Self.log, type:.error, user.uid, tableName, error.localizedDescription)
                 } else {
-                    os_log("User %{public}@ successfully removed from %{public}@ ", log:self.log, type:.info, user.uid, tableName)
+                    os_log("User %{public}@ successfully removed from %{public}@ ", log:Self.log, type:.info, user.uid, tableName)
                 }
                 dispatchGroup.leave()
             }
@@ -541,10 +561,10 @@ class DataModel: ObservableObject {
             user.delete { error in
                 if let error = error {
                     // An error happened.
-                    os_log("Delete Error %{public}@", log: self.log, type: .error, error.localizedDescription)
+                    os_log("Delete Error %{public}@", log: Self.log, type: .error, error.localizedDescription)
                 } else {
                     // Account deleted.
-                    os_log("Account %{public}@ deleted", log: self.log, type: .info, user.displayName ?? "???")
+                    os_log("Account %{public}@ deleted", log: Self.log, type: .info, user.displayName ?? "???")
                 }
             }
         }
@@ -556,7 +576,7 @@ class DataModel: ObservableObject {
             db.collection("admins").document(email).getDocument(completion: { (snapshot, error) in
                 var isAdmin = false
                 if let error = error {
-                    os_log("updateAdminFlag error %{public}@", log: self.log, type: .error, error.localizedDescription)
+                    os_log("updateAdminFlag error %{public}@", log: Self.log, type: .error, error.localizedDescription)
                 } else {
                     isAdmin = (snapshot?.data()?.count ?? 0) > 0
                 }
@@ -576,7 +596,7 @@ class DataModel: ObservableObject {
         let lastCheckin = self.getISO8601Date()
         ref.updateData(["displayName" : displayName, "lastCheckin" : lastCheckin ]) { (error) in
             if let error = error {
-                os_log("update user for uid %@, Error %{public}@", log:self.log, type:.error, userId, error.localizedDescription)
+                os_log("update user for uid %@, Error %{public}@", log:Self.log, type:.error, userId, error.localizedDescription)
             } else {
                 if let customerEntry = self.customers[userId] {
                     let updatedCustomerEntry = CustomerEntry(displayName: displayName, email: customerEntry.email, lastCheckin: lastCheckin)
@@ -588,18 +608,18 @@ class DataModel: ObservableObject {
     }
     
     public func addUser(userId:String, displayName:String?, email:String?) {
-        os_log("Add User %{public}@ for uid %@, ", log:self.log, type:.info, String(describing:displayName), userId)
+        os_log("Add User %{public}@ for uid %@, ", log:Self.log, type:.info, String(describing:displayName), userId)
         let ref = self.db.collection("users").document(userId)
         ref.getDocument { (snapshot, error) in
             if let err = error {
-                os_log("Add User for uid %@, Error %{public}@", log:self.log, type:.error, userId, err.localizedDescription)
+                os_log("Add User for uid %@, Error %{public}@", log:Self.log, type:.error, userId, err.localizedDescription)
             } else {
                 let lastCheckin = self.getISO8601Date()
                 if snapshot?.exists ?? false {
                     snapshot?.reference.updateData(["lastCheckin":lastCheckin]) { (error) in
                         // if no error we could update the model?
                         if let error = error {
-                            os_log("Could not update lastCheckin for %{public}@, %{public}@", log: self.log, type: .error, userId, error.localizedDescription)
+                            os_log("Could not update lastCheckin for %{public}@, %{public}@", log: Self.log, type: .error, userId, error.localizedDescription)
                         }
                         else {
                             let theName = self.customers[userId]?.displayName ?? displayName ?? "Anonymous"
@@ -616,10 +636,10 @@ class DataModel: ObservableObject {
                         try ref.setData(from: theUser, encoder: Firestore.Encoder()) { (error) in
                             // check for error
                             if let error = error {
-                                os_log("Could not add new user %{public}@, %{public}@", log: self.log, type: .error, userId, error.localizedDescription)
+                                os_log("Could not add new user %{public}@, %{public}@", log: Self.log, type: .error, userId, error.localizedDescription)
                             }
                             else {
-                                os_log("Update user %{public}@", log: self.log, type: .info, userId)
+                                os_log("Update user %{public}@", log: Self.log, type: .info, userId)
                                 self.customers[userId] = theUser
                                 self.updateAll()
                                 // adding points may also refresh too
@@ -629,7 +649,7 @@ class DataModel: ObservableObject {
                     }
                     catch let error {
                         // log error
-                        os_log("Could not parse new user %{public}@, %{public}@", log: self.log, type: .error, userId, error.localizedDescription)
+                        os_log("Could not parse new user %{public}@, %{public}@", log: Self.log, type: .error, userId, error.localizedDescription)
                     }
                 }
             }
@@ -672,9 +692,9 @@ class DataModel: ObservableObject {
             return nil
         }) { (object, err) in
             if let err = err {
-                os_log("Transaction failed, reason: %{public}@", log: self.log, type: .error, err.localizedDescription)
+                os_log("Transaction failed, reason: %{public}@", log: Self.log, type: .error, err.localizedDescription)
             } else {
-                os_log("Transaction succeeded", log: self.log, type: .info)
+                os_log("Transaction succeeded", log: Self.log, type: .info)
                 self.updateAll()
                 
                 if (points == -self.redeemAmount) {
@@ -690,7 +710,7 @@ class DataModel: ObservableObject {
         let ref = self.db.collection("redeem").document()
         ref.setData(["userId": userId, "date": redeemDate]) { (error) in
             if let error = error {
-                os_log("Redeem failed, reason: %{public}@", log: self.log, type: .error, error.localizedDescription)
+                os_log("Redeem failed, reason: %{public}@", log: Self.log, type: .error, error.localizedDescription)
             }
             else {
                 self.updateAll()
@@ -701,7 +721,7 @@ class DataModel: ObservableObject {
     // watch for db updates and update our models
     func setupListeners(userId:String?) {
         if let userId = userId {
-            os_log("Adding Listeners for just %{public}@", log: self.log, type: .info, userId)
+            os_log("Adding Listeners for just %{public}@", log: Self.log, type: .info, userId)
             let pointsRef = self.db.collection("points").document(userId)
             self.pointsListener = pointsRef.addSnapshotListener { (snapshot, error) in
                 if let error = error {
@@ -718,7 +738,7 @@ class DataModel: ObservableObject {
             }
             let userRef = db.collection("users").document(userId)
             self.usersListener = userRef.addSnapshotListener { (snapshot, error) in
-                os_log("Users Listener %{public}@", log: self.log, type: .info, Auth.auth().currentUser?.email ?? "N/A")
+                os_log("Users Listener %{public}@", log: Self.log, type: .info, Auth.auth().currentUser?.email ?? "N/A")
                 if let error = error {
                     os_log("Fetch user for uid %@, Error %{public}@", userId, error.localizedDescription)
                 } else {
@@ -730,19 +750,19 @@ class DataModel: ObservableObject {
             }
         }
         else {
-            os_log("Adding Listeners for all users", log: self.log, type: .info)
+            os_log("Adding Listeners for all users", log: Self.log, type: .info)
             let waitGroup = DispatchGroup()
             waitGroup.enter()
             var userWaitGroup : DispatchGroup? = waitGroup
             self.usersListener = db.collection("users").addSnapshotListener { (querySnapshot, error) in
-                os_log("Users Listener %{public}@", log: self.log, type: .info, Auth.auth().currentUser?.email ?? "N/A")
+                os_log("Users Listener %{public}@", log: Self.log, type: .info, Auth.auth().currentUser?.email ?? "N/A")
                 guard let documents = querySnapshot?.documents else {
-                    os_log("Users Listener no documents -> %{public}@", log: self.log, type: .info, String(describing: error))
+                    os_log("Users Listener no documents -> %{public}@", log: Self.log, type: .info, String(describing: error))
                     
                     return
                 }
                 self.customers.removeAll()
-                os_log("Users Listener found %d documents", log: self.log, type: .info, documents.count)
+                os_log("Users Listener found %d documents", log: Self.log, type: .info, documents.count)
                 
                 for document in documents {
                     if let entry = try? document.data(as: CustomerEntry.self) {
@@ -759,7 +779,7 @@ class DataModel: ObservableObject {
             var pointsWaitGroup : DispatchGroup? = waitGroup
             self.pointsListener = db.collection("points").addSnapshotListener { (querySnapshot, error) in
                 guard let documents = querySnapshot?.documents else {
-                    os_log("Points Listener no documents", log: self.log, type: .info)
+                    os_log("Points Listener no documents", log: Self.log, type: .info)
                     return
                 }
                 self.points.removeAll()
@@ -779,7 +799,7 @@ class DataModel: ObservableObject {
             var redeemWaitGroup : DispatchGroup? = waitGroup
             self.redeemListener = db.collection("redeem").addSnapshotListener { (querySnapshot, error) in
                 guard let documents = querySnapshot?.documents else {
-                    os_log("Reddem Listener no documents", log: self.log, type: .info)
+                    os_log("Reddem Listener no documents", log: Self.log, type: .info)
                     return
                 }
                 self.redeemed = documents.compactMap { queryDocumentSnapshot -> Redeemed? in

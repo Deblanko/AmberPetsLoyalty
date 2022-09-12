@@ -31,6 +31,13 @@ struct CustomerView: View {
                             showLogo = true
                         }
                 }
+                else if let customLiveLogo = vm.logoLive {
+                    LivePhotoView(livephoto: customLiveLogo, playbackStyle: .full)
+                        .frame(width: 64, height: 64, alignment: .center)                        .scaledToFit()
+                        .onTapGesture {
+                            showLogo = true
+                        }
+                }
                 else {
                     Image("SmallLogo")
                         .onTapGesture {
@@ -89,6 +96,9 @@ struct CustomerView: View {
                 // The dialog was cancelled
             }
         })
+        .onAppear() {
+            vm.loadLogo()
+        }
     }
 }
 
